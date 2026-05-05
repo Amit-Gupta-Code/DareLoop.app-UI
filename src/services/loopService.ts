@@ -1,0 +1,58 @@
+import API from "../api/client";
+
+export interface Loop {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  root_code: string;
+  participant_count: number;
+}
+
+export const getLoops = async (): Promise<Loop[]> => {
+  const { data } = await API.get("/challenges");
+  return data.data as Loop[];
+};
+
+export const createLoop = async (title: string, description: string) => {
+  const { data } = await API.post("/challenges", { title, description });
+  return data.data as { challenge_id: string; code: string };
+};
+
+export interface LoopParticipantNode {
+  id: string;
+  code: string;
+  parentId: string | null;
+  username: string;
+  platform: string | null;
+  userId?: number | null;
+  avatar?: string | null;
+  depth: number;
+  is_trending: boolean;
+  viral_score: number;
+}
+
+export interface LoopDetail {
+  challenge_id: string;
+  challenge_title: string;
+  challenge_description: string;
+  current_code: string;
+  current_depth: number;
+  is_trending: boolean;
+  viral_score: number;
+  max_depth: number;
+  participants: LoopParticipantNode[];
+}
+
+export const getLoopDetail = async (code: string): Promise<LoopDetail> => {
+  const { data } = await API.get(`/chains/${code}`);
+  return data.data as LoopDetail;
+};
+
+export const joinLoop = async (
+  code: string,
+  payload: { username: string; platform: string }
+): Promise<{ code: string; already_joined?: boolean }> => {
+  const { data } = await API.post(`/chains/${code}/join`, payload);
+  return data.data as { code: string; already_joined?: boolean };
+};
