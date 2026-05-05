@@ -6,11 +6,20 @@ import { useAuthStore } from "../../store/authStore";
 import API from "../../api/client";
 import { resolveUserAvatarUrl } from "../../utils/resolveUserAvatarUrl";
 
+const getInitials = (name: string): string => {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "?";
+  const first = words[0][0].toUpperCase();
+  const last = words.length > 1 ? words[words.length - 1][0].toUpperCase() : "";
+  return first + last;
+};
+
 const EditProfile: React.FC = () => {
   const navigate = useNavigate();
   const { user, loading, setLoading, setAuth } = useAuthStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleCheckReqId = useRef(0);
+  const [imgError, setImgError] = useState(false);
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -112,6 +121,7 @@ const EditProfile: React.FC = () => {
     if (!file) return;
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
+    setImgError(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -178,12 +188,19 @@ const EditProfile: React.FC = () => {
             {/* Avatar Section */}
             <div className="flex flex-col items-center gap-4">
               <div className="relative group">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-[32px] border-4 border-border-sleek overflow-hidden bg-surface transition-transform group-hover:scale-105">
-                  <img
-                    src={avatarPreview || "https://picsum.photos/seed/placeholder/200/200"}
-                    className="w-full h-full object-cover"
-                    alt="Current Avatar"
-                  />
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-[32px] border-4 border-border-sleek overflow-hidden bg-surface transition-transform group-hover:scale-105 flex items-center justify-center">
+                  {avatarPreview && !imgError ? (
+                    <img
+                      src={avatarPreview}
+                      className="w-full h-full object-cover"
+                      alt="Current Avatar"
+                      onError={() => setImgError(true)}
+                    />
+                  ) : (
+                    <span className="text-2xl md:text-3xl font-black text-accent select-none">
+                      {getInitials(formData.name || user?.name || "")}
+                    </span>
+                  )}
                 </div>
                 <button
                   type="button"

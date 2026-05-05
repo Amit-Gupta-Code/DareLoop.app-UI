@@ -10,17 +10,25 @@ import API from "@/src/api/client";
 import { resolveUserAvatarUrl } from "@/src/utils/resolveUserAvatarUrl";
 import { formatDisplayHandle } from "@/src/utils/formatDisplayHandle";
 
-const PLACEHOLDER_AVATAR = "https://picsum.photos/seed/me/200/200";
+const getInitials = (name: string): string => {
+   const words = name.trim().split(/\s+/).filter(Boolean);
+   if (words.length === 0) return "?";
+   const first = words[0][0].toUpperCase();
+   const last = words.length > 1 ? words[words.length - 1][0].toUpperCase() : "";
+   return first + last;
+};
 
 const UserProfile = () => {
    const [activeTab, setActiveTab] = useState<'joined' | 'created' | 'analytics'>('joined');
-   const [avatarSrc, setAvatarSrc] = useState(PLACEHOLDER_AVATAR);
+   const [avatarSrc, setAvatarSrc] = useState("");
+   const [avatarError, setAvatarError] = useState(false);
    const navigate = useNavigate();
    const { user: authUser, setAuth } = useAuthStore();
 
    useEffect(() => {
       const fromStore = resolveUserAvatarUrl(authUser?.avatar) || authUser?.avatar || "";
-      setAvatarSrc(fromStore || PLACEHOLDER_AVATAR);
+      setAvatarSrc(fromStore);
+      setAvatarError(false);
    }, [authUser?.avatar]);
 
    useEffect(() => {
@@ -32,7 +40,8 @@ const UserProfile = () => {
             if (cancelled || !raw) return;
             const avatarUrl = resolveUserAvatarUrl(raw.avatar) || raw.avatar || "";
             setAuth({ ...raw, avatar: avatarUrl || raw.avatar });
-            setAvatarSrc(avatarUrl || PLACEHOLDER_AVATAR);
+            setAvatarSrc(avatarUrl);
+            setAvatarError(false);
          } catch {
             /* keep store */
          }
@@ -58,14 +67,20 @@ const UserProfile = () => {
          <div className="card-main p-8 md:p-12 relative overflow-hidden bg-card-bg shadow-2xl border-border-sleek">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-[100px] -mr-32 -mt-32" />
             <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
-               <div className="w-32 h-32 md:w-40 md:h-40 rounded-[32px] border-[6px] border-border-sleek overflow-hidden shadow-2xl bg-surface">
-                  <img
-                     src={user.avatar}
-                     className="w-full h-full object-cover"
-                     alt=""
-                     referrerPolicy="no-referrer"
-                     onError={() => setAvatarSrc(PLACEHOLDER_AVATAR)}
-                  />
+               <div className="w-32 h-32 md:w-40 md:h-40 rounded-[32px] border-[6px] border-border-sleek overflow-hidden shadow-2xl bg-surface flex items-center justify-center">
+                  {user.avatar && !avatarError ? (
+                     <img
+                        src={user.avatar}
+                        className="w-full h-full object-cover"
+                        alt=""
+                        referrerPolicy="no-referrer"
+                        onError={() => setAvatarError(true)}
+                     />
+                  ) : (
+                     <span className="text-3xl md:text-4xl font-black text-accent select-none">
+                        {getInitials(user.name)}
+                     </span>
+                  )}
                </div>
                <div className="flex-1 text-center md:text-left space-y-4">
                   <div className="space-y-1">
