@@ -10,8 +10,7 @@ export default defineConfig(({ mode }) => {
     '',
   );
   return {
-    base: '/build/', // ✅ CRITICAL FIX
-    // base: '/', // ✅ CRITICAL FIX
+    base: '/',
 
     plugins: [react(), tailwindcss()],
 
