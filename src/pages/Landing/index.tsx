@@ -5,7 +5,7 @@ import RootGrowthAnimation from "../../components/animations/RootGrowthAnimation
 import NetworkChainLoader from "../../components/common/NetworkChainLoader";
 import { useAuthStore } from "../../store/authStore";
 import { getTrendingSpotlights, type TrendingSpotlight } from "../../services/landingService";
-
+import { type Platform } from "@/src/utils/helpers";
 import {
   Users,
   Link as LinkIcon,
@@ -80,29 +80,6 @@ const Landing = () => {
 
   const handleActivateLoop = () => {
     navigate(isAuthenticated ? "/explore" : "/login");
-  };
-
-  const copyInviteLink = async () => {
-    try {
-      await navigator.clipboard.writeText(inviteUrl);
-      setInviteCopied(true);
-      window.setTimeout(() => setInviteCopied(false), 2800);
-    } catch {
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = inviteUrl;
-        ta.style.position = "fixed";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        setInviteCopied(true);
-        window.setTimeout(() => setInviteCopied(false), 2800);
-      } catch {
-        /* ignore */
-      }
-    }
   };
 
   const KineticTitle = () => {
@@ -279,7 +256,7 @@ const Landing = () => {
                 <div>
                   <h4 className="font-black text-text-main text-sm uppercase tracking-tight">{t.name}</h4>
                   <div className="flex items-center gap-1.5 text-accent">
-                    {getPlatformIcon(t.platform)}
+                    {getPlatformIcon(t.platform as Platform)}
                     <span className="text-[10px] font-bold tracking-widest">{t.handle}</span>
                   </div>
                 </div>

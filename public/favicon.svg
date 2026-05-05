@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <!-- Left chain link -->
+  <rect x="6" y="22" width="24" height="20" rx="10" ry="10" stroke="url(#g)" stroke-width="6" fill="none"/>
+  <!-- Right chain link -->
+  <rect x="34" y="22" width="24" height="20" rx="10" ry="10" stroke="url(#g)" stroke-width="6" fill="none"/>
+  <!-- Overlap cover to create interlock effect -->
+  <rect x="26" y="27" width="12" height="10" fill="white"/>
+  <!-- Re-draw front half of left link over the cover -->
+  <path d="M16 22 Q6 22 6 32 Q6 42 16 42 L22 42" stroke="url(#g)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- Re-draw front half of right link over the cover -->
+  <path d="M42 22 L48 22 Q58 22 58 32 Q58 42 48 42 L42 42" stroke="url(#g)" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>
