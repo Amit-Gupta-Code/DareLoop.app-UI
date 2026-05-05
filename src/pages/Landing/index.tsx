@@ -121,7 +121,7 @@ const Landing = () => {
           transition={{ delay: 0.6 }}
           className="flex flex-col md:flex-row items-center justify-center gap-4 pt-8"
         >
-          <Link to="/signup" className="btn-viral px-12 py-6 text-xl shadow-[0_20px_50px_rgba(34,197,94,0.3)] hover:shadow-accent/40 group">
+          <Link to={isAuthenticated ? "/create" : "/signup"} className="btn-viral px-12 py-6 text-xl shadow-[0_20px_50px_rgba(34,197,94,0.3)] hover:shadow-accent/40 group">
             INITIATE GROWTH <Rocket className="w-6 h-6 group-hover:rotate-12 transition-transform" />
           </Link>
           <Link to="/explore" className="btn-sleek bg-surface border-border-sleek px-10 py-6 text-lg hover:bg-card-bg">

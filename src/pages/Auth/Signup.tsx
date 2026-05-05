@@ -9,6 +9,13 @@ const Signup = () => {
   const setAuth = useAuthStore((s) => s.setAuth);
   const setLoading = useAuthStore((s) => s.setLoading);
   const loading = useAuthStore((s) => s.loading);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/create", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     initGoogleAuth(async (credential: string) => {
