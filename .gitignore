@@ -33,4 +33,9 @@ Docs-Resource-Developement
 *.cmd
 /node_modules
 *.json
+!vercel.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!metadata.json
 /dist
