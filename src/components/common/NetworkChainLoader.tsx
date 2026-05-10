@@ -59,9 +59,9 @@ const NetworkChainLoader: React.FC<NetworkChainLoaderProps> = ({
 
         {points.map((p, i) => (
           <React.Fragment key={`node-group-${p.id}`}>
-            {/* Adaptive Connection Lines */}
+            {/* Static connection lines — no JS animation, opacity handled by parent */}
             {points.slice(i + 1, i + 1 + connectionCount).map((p2) => (
-              <motion.line
+              <line
                 key={`line-${p.id}-${p2.id}`}
                 x1={`${p.x}%`}
                 y1={`${p.y}%`}
@@ -69,80 +69,24 @@ const NetworkChainLoader: React.FC<NetworkChainLoaderProps> = ({
                 y2={`${p2.y}%`}
                 stroke={color}
                 strokeWidth="0.8"
-                initial={{ opacity: minLineOpacity }}
-                animate={{ 
-                  opacity: [minLineOpacity, maxLineOpacity, minLineOpacity],
-                }}
-                transition={{ 
-                  duration: p.duration * 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: p.delay 
-                }}
-                style={{ strokeDasharray: "2 4" }}
+                opacity={maxLineOpacity}
+                strokeDasharray="2 4"
               />
             ))}
 
-            {/* Glowing Connection Links (Moving Light) */}
-            {points.slice(i + 1, i + 1 + connectionCount).map((p2) => (
-              <motion.line
-                key={`link-glow-${p.id}-${p2.id}`}
-                x1={`${p.x}%`}
-                y1={`${p.y}%`}
-                x2={`${p2.x}%`}
-                y2={`${p2.y}%`}
-                stroke={color}
-                strokeWidth="1.2"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: [0, 1, 1],
-                  opacity: [0, 0.4, 0],
-                  pathOffset: [0, 0, 1]
-                }}
-                transition={{ 
-                  duration: p.duration,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: p.delay 
-                }}
-              />
-            ))}
-            
-            {/* The Main Nodes (Human distributing units) */}
+            {/* Node pulse — one animated element per node */}
             <motion.circle
               cx={`${p.x}%`}
               cy={`${p.y}%`}
               r={p.size}
               fill={color}
-              initial={{ opacity: 0.15, scale: 0.9 }}
-              animate={{ 
-                opacity: [0.15, 0.6, 0.15],
-                scale: [0.9, 1.2, 0.9],
-              }}
-              transition={{ 
-                duration: p.duration, 
+              initial={{ opacity: 0.15 }}
+              animate={{ opacity: [0.15, 0.6, 0.15] }}
+              transition={{
+                duration: p.duration,
                 repeat: Infinity,
                 ease: "easeInOut",
-                delay: p.delay 
-              }}
-            />
-            
-            {/* Atmospheric Core Pulse */}
-            <motion.circle
-              cx={`${p.x}%`}
-              cy={`${p.y}%`}
-              r={p.size * 3}
-              fill={color}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ 
-                opacity: [0, 0.08, 0],
-                scale: [0.5, 2.5, 3]
-              }}
-              transition={{ 
-                duration: p.pulseSpeed, 
-                repeat: Infinity,
-                ease: "easeOut",
-                delay: p.delay 
+                delay: p.delay,
               }}
             />
           </React.Fragment>

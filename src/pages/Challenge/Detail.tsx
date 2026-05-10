@@ -6,6 +6,10 @@ import { useParams, Link } from "react-router-dom";
 import { getLoopDetail, joinLoop, LoopDetail, LoopParticipantNode } from "@/src/services/loopService";
 import { useAuthStore } from "@/src/store/authStore";
 import { toPng } from "html-to-image";
+import { SEOHead } from "@/src/seo/SEOHead";
+import { challengeSchema, breadcrumbSchema } from "@/src/seo/schema";
+
+const SITE_URL = import.meta.env.VITE_APP_URL || "https://challengeloop.app";
 
 function normalizeHandle(value: string): string {
   return value.trim().toLowerCase().replace(/^@+/, "");
@@ -271,8 +275,18 @@ const ChallengeDetail = () => {
     }
   };
 
-  if (loading) return <div className="pt-32 text-center text-text-muted animate-pulse font-black uppercase tracking-[0.2em]">Synchronizing loop engine...</div>;
-  if (loadError || !chain) return <div className="pt-32 text-center text-red-500 font-black uppercase tracking-[0.2em]">{loadError || "Loop not found"}</div>;
+  if (loading) return (
+    <>
+      <SEOHead title="Loading Challenge..." noindex={true} />
+      <div className="pt-32 text-center text-text-muted animate-pulse font-black uppercase tracking-[0.2em]">Synchronizing loop engine...</div>
+    </>
+  );
+  if (loadError || !chain) return (
+    <>
+      <SEOHead title="Challenge Not Found" noindex={true} />
+      <div className="pt-32 text-center text-red-500 font-black uppercase tracking-[0.2em]">{loadError || "Loop not found"}</div>
+    </>
+  );
 
   if (nextCode) {
     const shareUrl = `${window.location.origin}/c/${nextCode}`;
@@ -309,7 +323,31 @@ const ChallengeDetail = () => {
     );
   }
 
+  const challengeUrl = `${SITE_URL}/c/${code}`;
+  const participantCount = chain.participants?.length ?? 0;
+
   return (
+    <>
+      <SEOHead
+        title={chain.challenge_title}
+        description={`${chain.challenge_description || `Join the ${chain.challenge_title} challenge on Challenge Loop.`} ${participantCount} participants. Track your streak and compete on the leaderboard.`}
+        keywords={`${chain.challenge_title}, challenge tracker, accountability challenge, streak challenge, join challenge`}
+        canonical={`/c/${code}`}
+        ogType="website"
+        schema={[
+          challengeSchema({
+            name: chain.challenge_title,
+            description: chain.challenge_description || `Join the ${chain.challenge_title} challenge.`,
+            url: challengeUrl,
+            participantCount,
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Explore", url: "/explore" },
+            { name: chain.challenge_title, url: `/c/${code}` },
+          ]),
+        ]}
+      />
     <div className="max-w-[1240px] mx-auto pt-24 pb-12 px-4 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 animate-in slide-in-from-bottom-4 duration-500">
       <aside className="space-y-4 md:space-y-6 order-2 lg:order-1">
         <div className="card-sleek bg-slate-900 border-none relative overflow-hidden h-[160px] md:h-[180px] flex flex-col items-center justify-center text-center shadow-xl">
@@ -413,6 +451,7 @@ const ChallengeDetail = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

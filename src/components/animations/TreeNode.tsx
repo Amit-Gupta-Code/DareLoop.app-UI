@@ -145,17 +145,20 @@ const TreeNode = ({
             exit={{ height: 0, opacity: 0 }}
             className="flex flex-col items-center overflow-hidden"
           >
-            <div className="w-0.5 h-8 bg-gradient-to-b from-accent/40 to-accent/10" />
-            <div className="flex gap-4 md:gap-8 px-4 relative">
+            {/* Vertical stem from parent to horizontal bar */}
+            <div className="w-0.5 h-8 bg-gradient-to-b from-accent/60 to-accent/20" />
+            <div className="flex gap-6 md:gap-10 px-4 relative">
+              {/* Horizontal connector spanning all children */}
               {node.children.length > 1 && (
                 <div
-                  className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 bg-accent/10"
-                  style={{ width: `calc(100% - 3.5rem)` }}
+                  className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 bg-accent/30"
+                  style={{ width: `calc(100% - 4rem)` }}
                 />
               )}
               {node.children.map((child: any) => (
-                <div key={child.id} className="relative pt-0">
-                  <div className="w-0.5 h-4 bg-accent/10 mx-auto" />
+                <div key={child.id} className="flex flex-col items-center">
+                  {/* Vertical drop from horizontal bar to child */}
+                  <div className="w-0.5 h-6 bg-accent/20" />
                   <TreeNode
                     node={child}
                     depth={depth + 1}

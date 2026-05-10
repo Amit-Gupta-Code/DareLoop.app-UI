@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Block authenticated / private routes
+Disallow: /dashboard/
+Disallow: /profile/edit
+Disallow: /settings/
+Disallow: /create
+Disallow: /login
+Disallow: /signup
+Disallow: /analytics
+
+# Block query-string variants that create duplicate content
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?ref=
+Disallow: /*?page=*&sort=
+
+# Allow key public pages explicitly (belt and suspenders)
+Allow: /explore
+Allow: /c/
+Allow: /
+
+# Crawl delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://challengeloop.app/sitemap.xml

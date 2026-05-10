@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Users, ChevronRight } from "lucide-react";
 import { getLoops, Loop } from "../../services/loopService";
+import { SEOHead } from "@/src/seo/SEOHead";
+import { exploreSchema, breadcrumbSchema } from "@/src/seo/schema";
 
 const Explore = () => {
   const [loops, setLoops] = useState<Loop[]>([]);
@@ -12,21 +14,33 @@ const Explore = () => {
   useEffect(() => {
     getLoops()
       .then(setLoops)
-      .catch(() => setError("Failed to load loops. Try again later."))
+      .catch(() => setError("Failed to load challenges. Try again later."))
       .finally(() => setLoading(false));
   }, []);
 
   return (
+    <>
+      <SEOHead
+        title="Explore Active Challenges"
+        description="Browse and join active challenges on Challenge Loop. Fitness, productivity, mindfulness, self-improvement, and more. Find your challenge and start your streak today."
+        keywords="explore challenges, active challenges, join challenge, fitness challenge, productivity challenge, habit challenge, 30 day challenge"
+        canonical="/explore"
+        schema={[
+          exploreSchema(),
+          breadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Explore Challenges", url: "/explore" },
+          ]),
+        ]}
+      />
     <div className="max-w-[1240px] mx-auto pt-24 pb-12 px-4 md:px-8 lg:px-12 flex flex-col gap-10 animate-in fade-in duration-600">
       <div className="space-y-3">
-        <span className="badge-green">Live Loops ⚡</span>
+        <span className="badge-green">Live Challenges ⚡</span>
         <h1 className="text-3xl lg:text-[48px] font-black tracking-tight leading-none text-primary">
-          Active Pulsations
+          Active Challenges
         </h1>
         <p className="text-text-muted text-[15px] lg:text-[17px] max-w-2xl leading-relaxed font-medium">
-          The algorithm ko ignore karo. These loops are moving the needle right
-          now. <br className="hidden md:block" />
-          Join a system, don't just post content.
+          Browse and join active challenges. Build better habits, stay consistent, and hit your goals — one day at a time.
         </p>
       </div>
 
@@ -47,7 +61,7 @@ const Explore = () => {
 
       {!loading && !error && loops.length === 0 && (
         <p className="text-text-muted font-semibold text-sm">
-          No active loops yet. Be the first to create one!
+          No active challenges yet. Be the first to create one!
         </p>
       )}
 
@@ -95,7 +109,7 @@ const Explore = () => {
                   to={`/c/${loop.root_code}`}
                   className="btn-sleek btn-viral !py-2.5 !px-6 !text-[11px] !rounded-lg active:scale-95 group-hover:scale-105 transition-all italic tracking-tight font-black"
                 >
-                  Enter Loop 😏 <ChevronRight className="w-4 h-4" />
+                  Join Challenge <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
             </motion.div>
@@ -103,6 +117,7 @@ const Explore = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

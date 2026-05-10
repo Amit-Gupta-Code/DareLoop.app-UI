@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MOCK_DATA from "../../data/mockData";
 import RootGrowthAnimation from "../../components/animations/RootGrowthAnimation";
-import NetworkChainLoader from "../../components/common/NetworkChainLoader";
+import { SEOHead } from "@/src/seo/SEOHead";
+import { webAppSchema, organizationSchema, faqSchema } from "@/src/seo/schema";
+
+const NetworkChainLoader = lazy(() => import("../../components/common/NetworkChainLoader"));
 import { useAuthStore } from "../../store/authStore";
 import { getTrendingSpotlights, type TrendingSpotlight } from "../../services/landingService";
 import { type Platform } from "@/src/utils/helpers";
@@ -65,6 +68,7 @@ const Landing = () => {
   const [stats] = useState(MOCK_DATA.stats);
   const [spotlights, setSpotlights] = useState<TrendingSpotlight[]>([]);
   const [inviteCopied, setInviteCopied] = useState(false);
+  const [bgReady, setBgReady] = useState(false);
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.user !== null);
@@ -139,7 +143,51 @@ const Landing = () => {
       .catch(() => setSpotlights([]));
   }, []);
 
+  // Defer decorative background animations until after the page is interactive
+  useEffect(() => {
+    const id = setTimeout(() => setBgReady(true), 800);
+    return () => clearTimeout(id);
+  }, []);
+
+  const landingFAQ = faqSchema([
+    {
+      question: "What is Challenge Loop?",
+      answer:
+        "Challenge Loop is a free challenge and accountability platform where you can join or create 30-day challenges, track daily streaks, compete on leaderboards, and stay accountable through a community of like-minded people.",
+    },
+    {
+      question: "Is Challenge Loop free?",
+      answer:
+        "Yes, Challenge Loop is completely free to join. Create an account and start your first challenge in under 60 seconds.",
+    },
+    {
+      question: "Can I create my own challenge?",
+      answer:
+        "Absolutely. Any user can create a public or private challenge, invite friends, and track everyone's progress in real time.",
+    },
+    {
+      question: "How does the leaderboard work?",
+      answer:
+        "The leaderboard ranks participants in each challenge by streak length and completion consistency. The longer your streak, the higher you climb.",
+    },
+    {
+      question: "Is Challenge Loop available in Australia?",
+      answer:
+        "Yes! Challenge Loop is used by communities across Australia, the US, UK, and India. Join your local city community or compete globally.",
+    },
+  ]);
+
   return (
+    <>
+      <SEOHead
+        title="Join Challenges. Build Streaks. Change Your Life."
+        description="The challenge platform where people start, share, and complete personal challenges with a community that keeps you accountable. Track streaks, compete on leaderboards. Free to join."
+        keywords="challenge app, 30 day challenge tracker, habit challenge, accountability app, streak tracker, challenge community, self improvement app, fitness challenge app"
+        canonical="/"
+        ogType="website"
+        appendSiteName={false}
+        schema={[webAppSchema(), organizationSchema(), landingFAQ]}
+      />
     <div className="max-w-[1440px] mx-auto pt-12 pb-24 px-6 md:px-12 animate-in fade-in duration-700">
       {/* 2027 Hero */}
       <KineticTitle />
@@ -155,9 +203,13 @@ const Landing = () => {
         >
           <div className="absolute top-0 right-0 w-80 h-80 bg-accent/20 rounded-full blur-[120px] -mr-40 -mt-40" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] -ml-32 -mb-32" />
-          <div className="absolute inset-0 opacity-10">
-            <NetworkChainLoader dotCount={60} connectionCount={4} color="#22C55E" />
-          </div>
+          {bgReady && (
+            <div className="absolute inset-0 opacity-10 hidden md:block">
+              <Suspense fallback={null}>
+                <NetworkChainLoader dotCount={28} connectionCount={2} color="#22C55E" />
+              </Suspense>
+            </div>
+          )}
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white shadow-xl shadow-accent/20">
@@ -269,22 +321,29 @@ const Landing = () => {
 
       {/* Action Marquee */}
       <div className="mt-24 bg-[#0F172A] py-12 rounded-[64px] border-none shadow-3xl relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-           <NetworkChainLoader dotCount={40} connectionCount={2} color="#FFFFFF" />
-        </div>
+        {bgReady && (
+          <div className="absolute inset-0 opacity-5 hidden md:block">
+            <Suspense fallback={null}>
+              <NetworkChainLoader dotCount={20} connectionCount={2} color="#FFFFFF" />
+            </Suspense>
+          </div>
+        )}
         <div className="relative z-10 text-center space-y-8 px-6">
           <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter lowercase italic italic">
             stop fighting <br/> <span className="text-accent underline decoration-white/20">monoliths.</span>
           </h2>
           <p className="text-white/40 text-lg md:text-xl max-w-xl mx-auto font-medium">
-            Join 50k+ nodes building the world's most resilient growth engine. 
+            Join 50k+ nodes building the world's most resilient growth engine.
           </p>
-          <button onClick={handleActivateLoop} className="btn-viral py-6 px-12 text-xl shadow-2xl hover:scale-105 transition-transform group">
-            ACTIVATE MY LOOP <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-          </button>
+          <div className="flex justify-center">
+            <button onClick={handleActivateLoop} className="btn-viral py-6 px-12 text-xl shadow-2xl hover:scale-105 transition-transform group">
+              ACTIVATE MY LOOP <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

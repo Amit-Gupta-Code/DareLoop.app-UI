@@ -14,6 +14,16 @@ export const getLoops = async (): Promise<Loop[]> => {
   return data.data as Loop[];
 };
 
+export const getMyLoops = async (): Promise<Loop[]> => {
+  const { data } = await API.get("/challenges/my");
+  return data.data as Loop[];
+};
+
+export const getJoinedLoops = async (): Promise<Loop[]> => {
+  const { data } = await API.get("/challenges/joined");
+  return data.data as Loop[];
+};
+
 export const createLoop = async (title: string, description: string) => {
   const { data } = await API.post("/challenges", { title, description });
   return data.data as { challenge_id: string; code: string };

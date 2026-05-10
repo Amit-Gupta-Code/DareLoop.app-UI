@@ -24,6 +24,19 @@ export default defineConfig(({ mode }) => {
       },
     },
 
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-motion': ['framer-motion', 'motion'],
+            'vendor-charts': ['recharts'],
+            'vendor-google': ['@google/genai'],
+          },
+        },
+      },
+    },
+
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Serve Laravel public storage under the Vite origin so html-to-image / canvas is not tainted in dev.

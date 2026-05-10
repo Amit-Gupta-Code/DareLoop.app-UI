@@ -1,15 +1,115 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
-import { Twitter, Disc as Discord, Github, ArrowRight, Instagram, Linkedin, Mail, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { Twitter, Disc as Discord, Github, ArrowRight, Instagram, Linkedin, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
 import NetworkChainLoader from "./NetworkChainLoader";
 import { subscribeNewsletter } from "../../services/newsletterService";
 import { isAxiosError } from "axios";
+
+const PlayStoreIcon = () => (
+  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
+    <path d="M3.18 23.76c.3.17.64.24.99.2l13.7-11.62L14.4 9l-11.22 14.76zM.54 1.7C.2 2.04 0 2.57 0 3.27v17.46c0 .7.2 1.23.55 1.57l.08.08 9.77-9.77v-.23L.62 1.63l-.08.07zM20.6 10.4l-2.76-1.57-3.27 3.27 3.27 3.27 2.78-1.58c.8-.45.8-1.93-.02-2.39zM4.17.24l13.7 11.62-3.47 3.47L1.14.2C1.64-.1 2.45-.05 4.17.24z" />
+  </svg>
+);
+
+const AppStoreIcon = () => (
+  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
+    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" />
+  </svg>
+);
+
+const AppComingSoonModal = ({ onClose }: { onClose: () => void }) => (
+  <AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85, y: 40 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.85, y: 40 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="relative z-10 w-full max-w-md"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Glow */}
+        <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-accent/30 via-accent/10 to-transparent blur-2xl" />
+
+        <div className="relative rounded-3xl bg-card-bg border border-border-sleek overflow-hidden">
+          {/* Top gradient strip */}
+          <div className="h-1 w-full bg-gradient-to-r from-transparent via-accent to-transparent" />
+
+          <div className="p-8 text-center">
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface border border-border-sleek flex items-center justify-center text-text-muted hover:text-primary hover:border-accent/40 transition-all"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Icon */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/20 flex items-center justify-center mx-auto mb-6"
+            >
+              <Rocket className="w-9 h-9 text-accent" />
+            </motion.div>
+
+            <h2 className="text-2xl font-black text-primary tracking-tight mb-2">
+              Launching <span className="text-accent">Soon</span>
+            </h2>
+            <p className="text-text-muted text-sm font-medium leading-relaxed mb-6 max-w-xs mx-auto">
+              Our mobile app is in the final stages of development. We're crafting an extraordinary experience for you.
+            </p>
+
+            {/* Store badges placeholder */}
+            <div className="flex gap-3 justify-center mb-6">
+              {[
+                { Icon: PlayStoreIcon, label: "Google Play" },
+                { Icon: AppStoreIcon, label: "App Store" },
+              ].map(({ Icon, label }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-surface border border-border-sleek opacity-50 cursor-not-allowed select-none"
+                >
+                  <Icon />
+                  <div className="text-left">
+                    <p className="text-[9px] text-text-muted font-semibold uppercase tracking-wider leading-none">Coming to</p>
+                    <p className="text-xs font-black text-primary leading-tight">{label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Notify pill */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
+              <Bell className="w-3.5 h-3.5 text-accent" />
+              <span className="text-[11px] font-black text-accent uppercase tracking-widest">Be the first to know</span>
+            </div>
+
+            <p className="text-[10px] text-text-muted font-medium mt-4 opacity-60">
+              Subscribe to our newsletter above to get notified at launch.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  </AnimatePresence>
+);
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [showAppModal, setShowAppModal] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +178,33 @@ const Footer = () => {
                 </motion.a>
               ))}
             </div>
+
+            {/* App Download Buttons */}
+            <div className="space-y-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted opacity-60">Download App</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  { Icon: PlayStoreIcon, top: "GET IT ON", bottom: "Google Play" },
+                  { Icon: AppStoreIcon, top: "Download on the", bottom: "App Store" },
+                ].map(({ Icon, top, bottom }) => (
+                  <motion.button
+                    key={bottom}
+                    onClick={() => setShowAppModal(true)}
+                    whileHover={{ scale: 1.03, borderColor: "rgba(34,197,94,0.4)" }}
+                    whileTap={{ scale: 0.97 }}
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-surface border border-border-sleek text-left transition-all hover:bg-accent/5 group"
+                  >
+                    <span className="text-text-muted group-hover:text-accent transition-colors">
+                      <Icon />
+                    </span>
+                    <div>
+                      <p className="text-[9px] text-text-muted font-semibold uppercase tracking-wider leading-none">{top}</p>
+                      <p className="text-sm font-black text-primary leading-tight">{bottom}</p>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Navigation Links */}
@@ -94,8 +221,9 @@ const Footer = () => {
           <div>
             <h4 className="text-xs font-black uppercase tracking-[0.2em] mb-8 text-text-muted italic opacity-70">Resources</h4>
             <ul className="space-y-4 font-bold text-sm">
+              <li><Link to="/blog" className="text-text-muted hover:text-accent transition-colors">Blog</Link></li>
               <li><Link to="/documentation" className="text-text-muted hover:text-accent transition-colors">Documentation</Link></li>
-              <li><Link to="/api-reference" className="text-text-muted hover:text-accent transition-colors">API Reference</Link></li>
+              {/* TODO: Next phase — API Reference page <li><Link to="/api-reference" className="text-text-muted hover:text-accent transition-colors">API Reference</Link></li> */}
               <li><Link to="/growth-engine-lab" className="text-text-muted hover:text-accent transition-colors">Growth Engine Lab</Link></li>
               <li><Link to="/whitepaper" className="text-text-muted hover:text-accent transition-colors">Whitepaper</Link></li>
             </ul>
@@ -167,6 +295,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {showAppModal && <AppComingSoonModal onClose={() => setShowAppModal(false)} />}
     </footer>
   );
 };

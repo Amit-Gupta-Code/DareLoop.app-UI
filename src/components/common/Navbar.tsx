@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown, Zap } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoutButton from "./LogoutButton";
@@ -9,13 +9,14 @@ import { resolveUserAvatarUrl } from "../../utils/resolveUserAvatarUrl";
 const primaryNav = [
   { name: "Home", path: "/" },
   { name: "Explore loops", path: "/explore" },
-  { name: "Start a loop", path: "/create" },
+  { name: "New Challenge", path: "/create" },
   { name: "Insights", path: "/analytics" },
+  { name: "Blog", path: "/blog" },
 ] as const;
 
+// TODO: Next phase — add { name: "API reference", path: "/api-reference" } back when ready
 const resourceNav = [
   { name: "Documentation", path: "/documentation" },
-  { name: "API reference", path: "/api-reference" },
   { name: "Growth engine lab", path: "/growth-engine-lab" },
   { name: "Whitepaper", path: "/whitepaper" },
 ] as const;
@@ -96,11 +97,22 @@ const Navbar = () => {
 
       {/* Desktop menu */}
       <div className="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-center max-w-3xl mx-4">
-        {primaryNav.map((link) => (
-          <NavLink key={link.path} to={link.path}>
-            {link.name}
-          </NavLink>
-        ))}
+        {primaryNav.map((link) =>
+          link.path === "/create" ? (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent text-white text-[12px] font-black uppercase tracking-wide shadow-[0_0_10px_2px_rgba(34,197,94,0.35)] hover:shadow-[0_0_16px_4px_rgba(34,197,94,0.55)] hover:scale-105 transition-all duration-200 animate-pulse-subtle"
+            >
+              <Zap size={13} className="fill-white" />
+              {link.name}
+            </Link>
+          ) : (
+            <NavLink key={link.path} to={link.path}>
+              {link.name}
+            </NavLink>
+          )
+        )}
 
         <div className="relative" ref={resourcesRef}>
           <button
@@ -208,16 +220,28 @@ const Navbar = () => {
           >
             <div className="p-6 flex flex-col gap-1 max-h-[min(70vh,calc(100dvh-64px))] overflow-y-auto">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted mb-2">Menu</p>
-              {primaryNav.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={closeMobile}
-                  className="py-3 text-base font-bold text-text-main border-b border-border-sleek/60 hover:text-accent"
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {primaryNav.map((link) =>
+                link.path === "/create" ? (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={closeMobile}
+                    className="flex items-center gap-2 py-3 text-base font-black text-accent border-b border-border-sleek/60"
+                  >
+                    <Zap size={16} className="fill-accent" />
+                    {link.name}
+                  </Link>
+                ) : (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={closeMobile}
+                    className="py-3 text-base font-bold text-text-main border-b border-border-sleek/60 hover:text-accent"
+                  >
+                    {link.name}
+                  </Link>
+                )
+              )}
 
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-muted mt-4 mb-2">Resources</p>
               {resourceNav.map((link) => (
