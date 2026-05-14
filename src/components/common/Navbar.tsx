@@ -87,7 +87,7 @@ const Navbar = () => {
   };
 
   const closeMobile = () => setMobileOpen(false);
-  const avatarUrl = user ? resolveUserAvatarUrl(user.avatar) : "";
+  const avatarUrl = user ? resolveUserAvatarUrl(user.profile_pic || user.avatar) : "";
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-[64px] bg-card-bg flex items-center justify-between px-4 lg:px-8 border-b border-border-sleek shadow-lg">

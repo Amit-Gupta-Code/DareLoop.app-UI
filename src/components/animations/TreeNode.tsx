@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Share2 } from "lucide-react";
 import { cn } from "@/src/utils/cn";
@@ -32,10 +32,17 @@ const TreeNode = ({
   key?: any;
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [imgFailed, setImgFailed] = useState(false);
   const subtreeRef = useRef<HTMLDivElement>(null);
-  const resolved = node.avatar?.trim() ? resolveUserAvatarUrl(node.avatar) : "";
-  const nodeAvatar = resolved || `https://picsum.photos/seed/${node.username}/80/80`;
-  const nodeAvatarSmall = resolved || `https://picsum.photos/seed/${node.username}/32/32`;
+  const rawPic = node.profile_pic || node.avatar;
+  // Skip the default system avatar — it lives on a different origin and causes CORS errors
+  const isRealPic = rawPic?.trim() && !rawPic.includes("/images/default-avatar");
+  const resolved = isRealPic ? resolveUserAvatarUrl(rawPic!) : "";
+  const picsumBase = `https://picsum.photos/seed/${encodeURIComponent(node.username)}/80/80`;
+  const picsumSmall = `https://picsum.photos/seed/${encodeURIComponent(node.username)}/32/32`;
+  const nodeAvatar = (!imgFailed && resolved) ? resolved : picsumBase;
+  const nodeAvatarSmall = (!imgFailed && resolved) ? resolved : picsumSmall;
+  const handleImgError = useCallback(() => setImgFailed(true), []);
 
   return (
     <div ref={subtreeRef} className="flex flex-col items-center">
@@ -53,6 +60,7 @@ const TreeNode = ({
               src={nodeAvatarSmall}
               className="w-8 h-8 rounded-lg shadow-sm"
               alt="handle"
+              onError={handleImgError}
               {...externalImageProps(nodeAvatarSmall)}
             />
             <div>
@@ -96,6 +104,7 @@ const TreeNode = ({
             src={nodeAvatar}
             className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
             alt={node.username}
+            onError={handleImgError}
             {...externalImageProps(nodeAvatar)}
           />
 

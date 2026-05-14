@@ -37,10 +37,10 @@ const UserProfile = () => {
    const { user: authUser, setAuth } = useAuthStore();
 
    useEffect(() => {
-      const fromStore = resolveUserAvatarUrl(authUser?.avatar) || authUser?.avatar || "";
+      const fromStore = resolveUserAvatarUrl(authUser?.profile_pic || authUser?.avatar) || authUser?.profile_pic || authUser?.avatar || "";
       setAvatarSrc(fromStore);
       setAvatarError(false);
-   }, [authUser?.avatar]);
+   }, [authUser?.profile_pic, authUser?.avatar]);
 
    useEffect(() => {
       let cancelled = false;
@@ -49,8 +49,8 @@ const UserProfile = () => {
             const res = await API.get("/auth/me");
             const raw = res.data?.data ?? res.data;
             if (cancelled || !raw) return;
-            const avatarUrl = resolveUserAvatarUrl(raw.avatar) || raw.avatar || "";
-            setAuth({ ...raw, avatar: avatarUrl || raw.avatar });
+            const avatarUrl = resolveUserAvatarUrl(raw.profile_pic || raw.avatar) || raw.profile_pic || raw.avatar || "";
+            setAuth({ ...raw, profile_pic: avatarUrl || raw.profile_pic });
             setAvatarSrc(avatarUrl);
             setAvatarError(false);
          } catch {

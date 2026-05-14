@@ -5,6 +5,7 @@ import { Camera, Save, ArrowLeft, Loader2, Sparkles, User, AtSign, FileText } fr
 import { useAuthStore } from "../../store/authStore";
 import API from "../../api/client";
 import { resolveUserAvatarUrl } from "../../utils/resolveUserAvatarUrl";
+import { uploadProfilePic } from "../../services/authService";
 
 const getInitials = (name: string): string => {
   const words = name.trim().split(/\s+/).filter(Boolean);
@@ -27,7 +28,8 @@ const EditProfile: React.FC = () => {
     bio: user?.bio || "",
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string>(user?.avatar || "");
+  const [avatarPreview, setAvatarPreview] = useState<string>(user?.profile_pic || user?.avatar || "");
+  const [picUploading, setPicUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [handleSoftError, setHandleSoftError] = useState<string | null>(null);
   const [handleChecking, setHandleChecking] = useState(false);
@@ -39,7 +41,7 @@ const EditProfile: React.FC = () => {
         handle: user.handle || "",
         bio: user.bio || "",
       });
-      setAvatarPreview(resolveUserAvatarUrl(user.avatar) || user.avatar || "");
+      setAvatarPreview(resolveUserAvatarUrl(user.profile_pic || user.avatar) || user.profile_pic || user.avatar || "");
     }
   }, [user]);
 
@@ -51,8 +53,8 @@ const EditProfile: React.FC = () => {
         const res = await API.get("/auth/me");
         const raw = res.data?.data ?? res.data;
         if (cancelled || !raw) return;
-        const avatarUrl = resolveUserAvatarUrl(raw.avatar) || raw.avatar || "";
-        setAuth({ ...raw, avatar: avatarUrl });
+        const avatarUrl = resolveUserAvatarUrl(raw.profile_pic || raw.avatar) || raw.profile_pic || raw.avatar || "";
+        setAuth({ ...raw, profile_pic: avatarUrl });
         setFormData({
           name: raw.name || "",
           handle: raw.handle || "",
@@ -116,12 +118,25 @@ const EditProfile: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setAvatarFile(file);
-    setAvatarPreview(URL.createObjectURL(file));
     setImgError(false);
+    // Show local blob preview instantly
+    const blobUrl = URL.createObjectURL(file);
+    setAvatarPreview(blobUrl);
+    // Upload to dedicated endpoint and update store so navbar/profile refresh immediately
+    try {
+      setPicUploading(true);
+      const uploadedUrl = await uploadProfilePic(file);
+      const resolved = resolveUserAvatarUrl(uploadedUrl) || uploadedUrl;
+      setAvatarPreview(resolved);
+    } catch {
+      // keep local preview if upload fails; user can retry on save
+    } finally {
+      setPicUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,17 +150,16 @@ const EditProfile: React.FC = () => {
       if (formData.name) payload.append("name", formData.name);
       payload.append("handle", formData.handle.replace(/^@/, "").trim());
       if (formData.bio) payload.append("bio", formData.bio);
-      if (avatarFile) payload.append("avatar", avatarFile);
 
       const res = await API.post("/auth/profile/update", payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       const updatedUser = res.data?.data ?? res.data;
-      const storageUrl = resolveUserAvatarUrl(updatedUser.avatar) || updatedUser.avatar || "";
+      const storageUrl = resolveUserAvatarUrl(updatedUser.profile_pic || updatedUser.avatar) || updatedUser.profile_pic || updatedUser.avatar || "";
 
       // Store the backend URL in the auth store (persistent)
-      setAuth({ ...updatedUser, avatar: storageUrl || updatedUser.avatar });
+      setAuth({ ...updatedUser, profile_pic: storageUrl || updatedUser.profile_pic });
 
       // Pass the local blob preview via router state so UserProfile shows it instantly
       // (storage symlink may not be ready immediately in dev)
@@ -205,9 +219,10 @@ const EditProfile: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-0 right-0 p-3 bg-accent text-white rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all"
+                  disabled={picUploading}
+                  className="absolute bottom-0 right-0 p-3 bg-accent text-white rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-wait"
                 >
-                  <Camera className="w-5 h-5" />
+                  {picUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Camera className="w-5 h-5" />}
                 </button>
                 <input
                   ref={fileInputRef}
@@ -297,7 +312,7 @@ const EditProfile: React.FC = () => {
             <div className="pt-6 border-t border-border-sleek">
               <button
                 type="submit"
-                disabled={loading || !!handleSoftError}
+                disabled={loading || picUploading || !!handleSoftError}
                 className="btn-viral w-full py-5 text-sm flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
               >
                 {loading ? (

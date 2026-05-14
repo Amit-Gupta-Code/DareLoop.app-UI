@@ -37,6 +37,7 @@ export interface LoopParticipantNode {
   platform: string | null;
   userId?: number | null;
   avatar?: string | null;
+  profile_pic?: string | null;
   depth: number;
   is_trending: boolean;
   viral_score: number;

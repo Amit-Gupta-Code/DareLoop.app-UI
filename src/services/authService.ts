@@ -6,6 +6,7 @@ export interface AuthUser {
   name: string;
   email: string;
   avatar?: string;
+  profile_pic?: string;
   handle?: string;
   bio?: string;
 }
@@ -50,6 +51,18 @@ export const updateProfile = async (payload: Partial<AuthUser>): Promise<AuthUse
   const { data } = await API.post("/auth/profile/update", payload);
   useAuthStore.getState().setAuth(data.data);
   return data.data;
+};
+
+export const uploadProfilePic = async (file: File): Promise<string> => {
+  const form = new FormData();
+  form.append("avatar", file);
+  const { data } = await API.post("/auth/profile/profile_pic", form, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  const profilePic: string = data.data.profile_pic;
+  const current = useAuthStore.getState().user;
+  if (current) useAuthStore.getState().setAuth({ ...current, profile_pic: profilePic });
+  return profilePic;
 };
 
 export const logout = async (): Promise<void> => {
