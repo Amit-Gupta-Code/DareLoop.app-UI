@@ -4,6 +4,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Landing from "./pages/Landing";
+import RequireAuth from "./components/common/RequireAuth";
 import { useTokenExpiry } from "./utils/jwt";
 import { trackPageView } from "./lib/firebase";
 import { requestNotificationPermission, onForegroundMessage } from "./services/notificationService";
@@ -67,12 +68,12 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Signup />} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
+              <Route path="/profile/edit" element={<RequireAuth><EditProfile /></RequireAuth>} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/c/:code" element={<ChallengeDetail />} />
-              <Route path="/create" element={<CreateChallenge />} />
+              <Route path="/create" element={<RequireAuth><CreateChallenge /></RequireAuth>} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/documentation" element={<Documentation />} />

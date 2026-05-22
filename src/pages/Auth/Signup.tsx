@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { initGoogleAuth, triggerGoogleLogin } from "../../services/googleAuth";
 import API from "../../api/client";
 import { useAuthStore } from "../../store/authStore";
@@ -75,14 +75,17 @@ function FloatingNodes() {
 
 const Signup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const setAuth = useAuthStore((s) => s.setAuth);
   const setLoading = useAuthStore((s) => s.setLoading);
   const loading = useAuthStore((s) => s.loading);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/profile";
+
   useEffect(() => {
-    if (isAuthenticated) navigate("/create", { replace: true });
-  }, [isAuthenticated, navigate]);
+    if (isAuthenticated) navigate(from, { replace: true });
+  }, [isAuthenticated, navigate, from]);
 
   useEffect(() => {
     initGoogleAuth(async (credential: string) => {
@@ -92,7 +95,7 @@ const Signup = () => {
         const { user, access_token } = res.data.data;
         localStorage.setItem("access_token", access_token);
         setAuth(user);
-        navigate("/");
+        navigate(from, { replace: true });
       } catch (err) {
         console.error("Google login failed", err);
       } finally {
