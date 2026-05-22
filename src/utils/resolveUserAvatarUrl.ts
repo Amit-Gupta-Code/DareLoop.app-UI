@@ -31,10 +31,15 @@ export function resolveUserAvatarUrl(avatar?: string | null): string {
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     try {
       const u = new URL(trimmed);
+      // Fix Laravel disk paths leaked into full URLs: /storage/app/public/... → /storage/...
+      let pathname = u.pathname;
+      if (pathname.startsWith("/storage/app/public/")) {
+        pathname = "/storage/" + pathname.slice("/storage/app/public/".length);
+      }
       // Same-origin uploads: re-map onto Vite dev proxy / API host so /storage always resolves.
-      if (u.pathname.startsWith("/storage/")) {
+      if (pathname.startsWith("/storage/")) {
         const origin = apiOrigin();
-        absolute = `${origin}${u.pathname}${u.search}`;
+        absolute = `${origin}${pathname}${u.search}`;
       } else {
         absolute = trimmed;
       }
@@ -44,6 +49,10 @@ export function resolveUserAvatarUrl(avatar?: string | null): string {
   } else {
     const base = apiOrigin();
     let path = trimmed.replace(/^\//, "");
+    // Laravel disk path "storage/app/public/..." → public URL "storage/..."
+    if (path.startsWith("storage/app/public/")) {
+      path = "storage/" + path.slice("storage/app/public/".length);
+    }
     // Laravel sometimes returns "storage/avatars/..." — do not prefix /storage again.
     if (path.startsWith("storage/")) {
       absolute = `${base}/${path}`;

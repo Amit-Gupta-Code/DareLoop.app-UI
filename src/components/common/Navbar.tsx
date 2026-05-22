@@ -49,6 +49,7 @@ function NavLink({
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   const resourcesRef = useRef<HTMLDivElement>(null);
 
   const user = useAuthStore((s) => s.user);
@@ -88,6 +89,8 @@ const Navbar = () => {
 
   const closeMobile = () => setMobileOpen(false);
   const avatarUrl = user ? resolveUserAvatarUrl(user.profile_pic || user.avatar) : "";
+
+  useEffect(() => { setAvatarError(false); }, [avatarUrl]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-[64px] bg-card-bg flex items-center justify-between px-4 lg:px-8 border-b border-border-sleek shadow-lg">
@@ -171,8 +174,8 @@ const Navbar = () => {
                 className="flex items-center gap-2 rounded-lg border border-border-sleek overflow-hidden hover:border-accent/40 transition-colors"
                 title="My profile"
               >
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="" className="w-9 h-9 object-cover" />
+                {avatarUrl && !avatarError ? (
+                  <img src={avatarUrl} alt="" className="w-9 h-9 object-cover" onError={() => setAvatarError(true)} />
                 ) : (
                   <div className="w-9 h-9 bg-accent/15 flex items-center justify-center text-sm font-black text-accent">
                     {(user?.name || user?.handle || "?").charAt(0).toUpperCase()}
