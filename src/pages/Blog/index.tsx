@@ -37,7 +37,7 @@ const BlogIndex = () => {
         <div className="text-center space-y-4 max-w-2xl mx-auto">
           <span className="badge-green">Blog · Growth Insights</span>
           <h1 className="text-4xl lg:text-5xl font-black tracking-tight text-primary">
-            The Loopify Blog
+            The Dareloop Blog
           </h1>
           <p className="text-text-muted text-base leading-relaxed font-medium">
             Deep dives into viral growth, recursive distribution, and what it really takes to build a chain that multiplies.

@@ -145,7 +145,7 @@ const Signup = () => {
               Own your growth.
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed max-w-md">
-              Loopify turns daily commitments into compounding results. Join thousands of builders who ship consistently.
+              Dareloop turns daily commitments into compounding results. Join thousands of builders who ship consistently.
             </p>
 
             {/* perks */}
@@ -189,7 +189,7 @@ const Signup = () => {
           {/* mobile-only brand */}
           <div className="lg:hidden mb-10 text-center space-y-2">
             <span className="font-black text-3xl text-primary">
-              LOOP<span className="text-accent">IFY</span>
+              DARELOOP
             </span>
             <p className="text-text-muted text-sm">Build habits. Chain momentum.</p>
           </div>

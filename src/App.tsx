@@ -39,7 +39,7 @@ function NotificationInit() {
       if (token) console.info("[FCM] token:", token);
     });
     onForegroundMessage((payload) => {
-      const title = payload.notification?.title ?? "ChainLoop";
+      const title = payload.notification?.title ?? "Dareloop";
       const body  = payload.notification?.body  ?? "";
       if (Notification.permission === "granted") {
         new Notification(title, { body, icon: "/favicon.svg" });

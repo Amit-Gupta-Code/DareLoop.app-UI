@@ -1,5 +1,5 @@
-const SITE_URL = import.meta.env.VITE_APP_URL || "https://challengeloop.app";
-const SITE_NAME = "Challenge Loop";
+const SITE_URL = import.meta.env.VITE_APP_URL || "https://www.dareloop.app";
+const SITE_NAME = "Dareloop";
 
 /** Organization schema — used in homepage and global footer */
 export function organizationSchema() {
@@ -9,9 +9,9 @@ export function organizationSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     sameAs: [
-      "https://twitter.com/challengeloop",
-      "https://instagram.com/challengeloop",
-      "https://linkedin.com/company/challengeloop",
+      "https://twitter.com/dareloop",
+      "https://instagram.com/dareloop",
+      "https://linkedin.com/company/dareloop",
     ],
   };
 }
@@ -158,9 +158,9 @@ export function exploreSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Explore Active Challenges | Challenge Loop",
+    name: "Explore Active Challenges | Dareloop",
     description:
-      "Browse all active challenges on Challenge Loop. Join fitness, productivity, mindfulness, and self-improvement challenges with a global community.",
+      "Browse all active challenges on Dareloop. Join fitness, productivity, mindfulness, and self-improvement challenges with a global community.",
     url: `${SITE_URL}/explore`,
     isPartOf: {
       "@type": "WebSite",

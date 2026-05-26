@@ -4,20 +4,20 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://challengeloop.app/</loc>
+    <loc>https://www.dareloop.app/</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en-au" href="https://challengeloop.app/"/>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://challengeloop.app/"/>
-    <xhtml:link rel="alternate" hreflang="en-gb" href="https://challengeloop.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://challengeloop.app/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://challengeloop.app/"/>
+    <xhtml:link rel="alternate" hreflang="en-au" href="https://www.dareloop.app/"/>
+    <xhtml:link rel="alternate" hreflang="en-us" href="https://www.dareloop.app/"/>
+    <xhtml:link rel="alternate" hreflang="en-gb" href="https://www.dareloop.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.dareloop.app/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.dareloop.app/"/>
   </url>
 
   <!-- Explore -->
   <url>
-    <loc>https://challengeloop.app/explore</loc>
+    <loc>https://www.dareloop.app/explore</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
@@ -25,20 +25,20 @@
 
   <!-- Static resource pages (indexed) -->
   <url>
-    <loc>https://challengeloop.app/documentation</loc>
+    <loc>https://www.dareloop.app/documentation</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <!-- TODO: Next phase — api-reference sitemap entry -->
   <url>
-    <loc>https://challengeloop.app/growth-engine-lab</loc>
+    <loc>https://www.dareloop.app/growth-engine-lab</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://challengeloop.app/whitepaper</loc>
+    <loc>https://www.dareloop.app/whitepaper</loc>
     <lastmod>2026-05-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -47,19 +47,19 @@
   <!-- Legal pages (noindex in meta, excluded from crawl priority) -->
   <!-- These are listed for completeness but have noindex meta tags -->
   <url>
-    <loc>https://challengeloop.app/privacy-policy</loc>
+    <loc>https://www.dareloop.app/privacy-policy</loc>
     <lastmod>2026-04-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://challengeloop.app/terms-of-service</loc>
+    <loc>https://www.dareloop.app/terms-of-service</loc>
     <lastmod>2026-04-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://challengeloop.app/cookies</loc>
+    <loc>https://www.dareloop.app/cookies</loc>
     <lastmod>2026-04-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>

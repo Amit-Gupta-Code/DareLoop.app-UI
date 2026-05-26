@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
 
-const SITE_URL = import.meta.env.VITE_APP_URL || "https://challengeloop.app";
-const SITE_NAME = "Challenge Loop";
+const SITE_URL = import.meta.env.VITE_APP_URL || "https://www.dareloop.app";
+const SITE_NAME = "Dareloop";
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.png`;
-const TWITTER_HANDLE = "@challengeloop";
+const TWITTER_HANDLE = "@dareloop";
 
 export interface SEOProps {
   title?: string;
@@ -15,7 +15,7 @@ export interface SEOProps {
   ogImageAlt?: string;
   noindex?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
-  /** Append " | Challenge Loop" to the title automatically */
+  /** Append " | Dareloop" to the title automatically */
   appendSiteName?: boolean;
 }
 
@@ -26,7 +26,7 @@ export function SEOHead({
   canonical,
   ogType = "website",
   ogImage = DEFAULT_IMAGE,
-  ogImageAlt = "Challenge Loop — Join Challenges. Build Streaks.",
+  ogImageAlt = "Dareloop — Join Challenges. Build Streaks.",
   noindex = false,
   schema,
   appendSiteName = true,

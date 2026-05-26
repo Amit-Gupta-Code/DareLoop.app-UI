@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import dareloopLogo from "../../assets/images/dareloop-logo.png";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Twitter, Disc as Discord, Github, ArrowRight, Instagram, Linkedin, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
@@ -153,8 +154,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           {/* Brand Segment */}
           <div className="space-y-6">
-            <div className="flex items-center gap-2 font-black text-2xl tracking-tight text-primary">
-              LOOP<span className="text-accent">IFY</span>
+            <div className="flex items-center gap-2">
+              <img src={dareloopLogo} alt="Dareloop" className="h-12 w-auto" />
             </div>
             <p className="text-text-muted text-sm leading-relaxed max-w-xs font-medium">
               Revolutionizing digital growth through recursive node-based scaling. 
@@ -284,7 +285,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-border-sleek flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-muted flex items-center gap-2">
-            <span className="opacity-60">&copy; 2024 LOOP<span className="text-accent/60">IFY</span> TECHNOLOGIES</span>
+            <span className="opacity-60">&copy; {new Date().getFullYear()} DARELOOP TECHNOLOGIES</span>
             <span className="w-1 h-1 bg-border-sleek rounded-full" />
             <span className="opacity-60">ALL RIGHTS RESERVED</span>
           </div>

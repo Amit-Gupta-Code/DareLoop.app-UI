@@ -69,12 +69,12 @@ export const STATIC_PAGES = {
     badge: "Resources · Paper",
     title: "Whitepaper",
     lead:
-      "Loopify models creator growth as a graph, not a feed: every participant extends the chain and inherits social proof from the path above them. This document explains the mechanics, rationale, and roadmap behind the system.",
+      "Dareloop models creator growth as a graph, not a feed: every participant extends the chain and inherits social proof from the path above them. This document explains the mechanics, rationale, and roadmap behind the system.",
     sections: [
       {
         heading: "Abstract",
         paragraphs: [
-          "Traditional social graphs optimize for impressions. Loopify optimizes for depth and participation—each node is an explicit opt-in to a shared challenge narrative.",
+          "Traditional social graphs optimize for impressions. Dareloop optimizes for depth and participation—each node is an explicit opt-in to a shared challenge narrative.",
           "The result is a compounding distribution system: every person who joins a challenge becomes a micro-distributor, and every share carries measurable social proof inherited from the nodes above. Growth becomes recursive by design, not by luck.",
         ],
       },
@@ -87,9 +87,9 @@ export const STATIC_PAGES = {
         ],
       },
       {
-        heading: "The Loopify model",
+        heading: "The Dareloop model",
         paragraphs: [
-          "Loopify replaces the feed with a challenge chain. A creator launches a challenge and receives a root invite code. Each person who joins using that code becomes a node in the chain and is issued their own code.",
+          "Dareloop replaces the feed with a challenge chain. A creator launches a challenge and receives a root invite code. Each person who joins using that code becomes a node in the chain and is issued their own code.",
           "Every node has a defined parent. The graph is directed and acyclic—a tree rooted at the original challenge. Depth is a first-class metric: a chain with 10 levels of participants is more structurally valuable than 1,000 passive impressions.",
           "This structure makes distribution legible. You can trace exactly which paths grew fastest, which nodes drove the most downstream joins, and where the chain stalled. That data is the growth engine.",
         ],
@@ -105,7 +105,7 @@ export const STATIC_PAGES = {
       {
         heading: "Viral coefficient & growth mechanics",
         paragraphs: [
-          "The viral coefficient K is defined as: K = i × p, where i is the average number of invites each participant sends and p is the conversion rate. A challenge with K > 1 grows exponentially. Loopify is built to push both levers.",
+          "The viral coefficient K is defined as: K = i × p, where i is the average number of invites each participant sends and p is the conversion rate. A challenge with K > 1 grows exponentially. Dareloop is built to push both levers.",
           "Sharing is built into the join flow—each participant receives their code immediately after joining, with one-tap share targets. Friction is minimal by design.",
           "Conversion is improved by the chain context visible on every challenge page: participant count, depth indicator, and the names of people already in the chain. Joining feels like joining a movement, not clicking an ad.",
         ],
@@ -131,7 +131,7 @@ export const STATIC_PAGES = {
         paragraphs: [
           "Participation is opt-in and pseudonymous by default. A join requires only a handle and platform—no personal data beyond what users choose to display on their profile.",
           "Chain graphs are public by design: the structural data (depth, branching, participant count) is what creates social proof. Individual join timestamps and referral paths are visible only to the challenge creator.",
-          "All data handling follows the Loopify Privacy Policy. No participant data is sold or shared with third parties.",
+          "All data handling follows the Dareloop Privacy Policy. No participant data is sold or shared with third parties.",
         ],
       },
       {
@@ -146,7 +146,7 @@ export const STATIC_PAGES = {
       {
         heading: "Conclusion",
         paragraphs: [
-          "The feed is not broken—it is optimized for the wrong thing. Loopify is an alternative distribution primitive: one where depth beats volume, participation beats impressions, and every join makes the next join easier.",
+          "The feed is not broken—it is optimized for the wrong thing. Dareloop is an alternative distribution primitive: one where depth beats volume, participation beats impressions, and every join makes the next join easier.",
           "The challenge chain is the unit of growth. Build one, and every person in it becomes part of your distribution infrastructure—permanently, transparently, and without algorithmic interference.",
           "This whitepaper will be updated as the product ships. For technical documentation, see the Docs page. For the experimental layer, see the Growth Engine Lab.",
         ],
@@ -156,7 +156,7 @@ export const STATIC_PAGES = {
   "privacy-policy": {
     badge: "Legal",
     title: "Privacy Policy",
-    lead: 'Last updated: April 30, 2026. Loopify Technologies ("we", "us") explains how we handle information when you use our websites and services.',
+    lead: 'Last updated: April 30, 2026. Dareloop Technologies ("we", "us") explains how we handle information when you use our websites and services.',
     sections: [
       {
         heading: "Information we collect",
@@ -181,7 +181,7 @@ export const STATIC_PAGES = {
   "terms-of-service": {
     badge: "Legal",
     title: "Terms of Service",
-    lead: "Last updated: April 30, 2026. By accessing Loopify you agree to these terms. If you disagree, do not use the service.",
+    lead: "Last updated: April 30, 2026. By accessing Dareloop you agree to these terms. If you disagree, do not use the service.",
     sections: [
       {
         heading: "Use of the service",

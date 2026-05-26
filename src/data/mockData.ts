@@ -17,7 +17,7 @@ const MOCK_DATA = {
       id: "1",
       title: "Creator Growth Loop #1",
       description:
-        "Stop relying on algorithms. Loopify turns other creators into your distribution engine. Join this loop and grow automatically.",
+        "Stop relying on algorithms. Dareloop turns other creators into your distribution engine. Join this loop and grow automatically.",
       status: "exploding 🔥",
       root_code: "creator-loop-root",
       participantCount: 1284,
@@ -46,7 +46,7 @@ const MOCK_DATA = {
       id: "c1",
       challenge_title: "Creator Growth Loop #1",
       challenge_description:
-        "Stop relying on algorithms. Loopify turns other creators into your distribution engine. Join this loop and grow automatically.",
+        "Stop relying on algorithms. Dareloop turns other creators into your distribution engine. Join this loop and grow automatically.",
       depth: 427,
       participants: [
         {
@@ -112,7 +112,7 @@ const MOCK_DATA = {
       name: "Marcus Digital",
       handle: "@marcus_tech",
       content:
-        "Loopify solved the distribution problem. Instead of praying to the TikTok gods, I connected with other creators. Best decision ever.",
+        "Dareloop solved the distribution problem. Instead of praying to the TikTok gods, I connected with other creators. Best decision ever.",
       avatar: "https://picsum.photos/seed/marcus/100/100",
       platform: "Youtube",
     },

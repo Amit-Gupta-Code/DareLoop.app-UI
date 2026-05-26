@@ -1,7 +1,7 @@
 // app/layout.tsx
 
 export const metadata = {
-    title: "Loopify",
+    title: "Dareloop",
     description: "Viral chain platform",
     icons: {
       icon: "/public/img/favicon_io/favicon.ico",

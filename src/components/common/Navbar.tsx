@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
+import dareloopLogo from "../../assets/images/dareloop-logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Sun, Moon, ChevronDown, Zap } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
@@ -94,8 +95,8 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 h-[64px] bg-card-bg flex items-center justify-between px-4 lg:px-8 border-b border-border-sleek shadow-lg">
-      <Link to="/" className="font-black text-[18px] lg:text-[22px] text-primary shrink-0">
-        LOOP<span className="text-accent">IFY</span>
+      <Link to="/" className="shrink-0">
+        <img src={dareloopLogo} alt="Dareloop" className="h-10 w-auto" />
       </Link>
 
       {/* Desktop menu */}

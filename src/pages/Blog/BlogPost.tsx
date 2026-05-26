@@ -50,7 +50,7 @@ const BlogPost = () => {
     <>
       <SEOHead
         title={post.title}
-        description={post.excerpt ?? `Read "${post.title}" on the Loopify Blog.`}
+        description={post.excerpt ?? `Read "${post.title}" on the Dareloop Blog.`}
         canonical={`/blog/${post.slug}`}
       />
       <div className="max-w-[800px] mx-auto pt-24 pb-20 px-4 md:px-8 lg:px-12 animate-in fade-in duration-500">

@@ -4,13 +4,13 @@ import { X, Rocket, Zap, Users, ChevronRight, ChevronLeft } from "lucide-react";
 
 /**
  * TutorialOverlay Component
- * A dismissible, multi-step tutorial explaining Loopify's recursive growth concept.
+ * A dismissible, multi-step tutorial explaining Dareloop's recursive growth concept.
  */
 
 const TUTORIAL_STEPS = [
   {
     title: "The Growth Loop",
-    description: "Loopify isn't just a sharing tool. It's a recursive engine where every new joiner becomes a node that spawns its own growth tree.",
+    description: "Dareloop isn't just a sharing tool. It's a recursive engine where every new joiner becomes a node that spawns its own growth tree.",
     icon: Zap,
     color: "text-yellow-400"
   },
@@ -34,7 +34,7 @@ const TutorialOverlay: React.FC = () => {
 
   useEffect(() => {
     // Show tutorial only if it hasn't been dismissed before
-    const hasSeenTutorial = localStorage.getItem("loopify_tutorial_seen");
+    const hasSeenTutorial = localStorage.getItem("dareloop_tutorial_seen");
     if (!hasSeenTutorial) {
       const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
@@ -43,7 +43,7 @@ const TutorialOverlay: React.FC = () => {
 
   const handleDismiss = () => {
     setIsOpen(false);
-    localStorage.setItem("loopify_tutorial_seen", "true");
+    localStorage.setItem("dareloop_tutorial_seen", "true");
   };
 
   const nextStep = () => {

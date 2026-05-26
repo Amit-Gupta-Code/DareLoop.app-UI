@@ -80,7 +80,7 @@ const Landing = () => {
   const inviteUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/signup?ref=${encodeURIComponent(inviteSlug)}`
-      : `https://loopify.io/signup?ref=${encodeURIComponent(inviteSlug)}`;
+      : `https://www.dareloop.app/signup?ref=${encodeURIComponent(inviteSlug)}`;
 
   const handleActivateLoop = () => {
     navigate(isAuthenticated ? "/explore" : "/login");
@@ -105,7 +105,7 @@ const Landing = () => {
         >
           <span className="badge-green mb-6 px-6 py-2 text-xs">V3.0 HYPER-FLUID ENGINE ⚡</span>
           <h1 className="text-5xl md:text-8xl lg:text-[120px] font-black tracking-tight leading-[0.85] text-primary italic uppercase italic">
-            Loopify <br/> 
+            Dareloop <br/>
             <span className="text-accent underline decoration-border-sleek">Your Reach.</span>
           </h1>
         </motion.div>
@@ -253,7 +253,7 @@ const Landing = () => {
           </div>
           <h3 className="text-2xl font-black text-text-main italic uppercase italic">Single-Link Synergy</h3>
           <p className="text-text-muted text-sm font-medium leading-relaxed">
-            One unique invitation link. Thousands of connections. Loopify maps your growth tree across 40+ platforms seamlessly.
+            One unique invitation link. Thousands of connections. Dareloop maps your growth tree across 40+ platforms seamlessly.
           </p>
         </motion.div>
 
@@ -288,7 +288,7 @@ const Landing = () => {
             </h2>
           </div>
           <p className="text-text-muted text-lg max-w-md font-medium leading-relaxed mb-1">
-            Loopify isn't just theory. Thousands of creators are actively scaling their reach through recursive loops right now.
+            Dareloop isn't just theory. Thousands of creators are actively scaling their reach through recursive loops right now.
           </p>
         </div>
 
