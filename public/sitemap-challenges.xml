@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file should be replaced/served dynamically by the Laravel backend.
+  The backend route GET /sitemap-challenges.xml should query all published
+  challenges and return their URLs in this format:
+
+  <url>
+    <loc>https://www.dareloop.app/c/{root_code}</loc>
+    <lastmod>{updated_at}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+</urlset>
