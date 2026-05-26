@@ -9,9 +9,8 @@ export function organizationSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     sameAs: [
-      "https://twitter.com/dareloop",
-      "https://instagram.com/dareloop",
-      "https://linkedin.com/company/dareloop",
+      "https://www.facebook.com/dareloop/",
+      "https://www.youtube.com/@CodeWithCodeOfficial",
     ],
   };
 }

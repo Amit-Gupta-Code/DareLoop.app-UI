@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import dareloopLogo from "../../assets/images/dareloop-logo.png";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Twitter, Disc as Discord, Github, ArrowRight, Instagram, Linkedin, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
+import { Facebook, Youtube, ArrowRight, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
 import NetworkChainLoader from "./NetworkChainLoader";
 import { subscribeNewsletter } from "../../services/newsletterService";
 import { isAxiosError } from "axios";
@@ -163,15 +163,14 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: Twitter, href: "#" },
-                { icon: Discord, href: "#" },
-                { icon: Instagram, href: "#" },
-                { icon: Linkedin, href: "#" },
-                { icon: Github, href: "#" }
+                { icon: Facebook, href: "https://www.facebook.com/dareloop/" },
+                { icon: Youtube, href: "https://www.youtube.com/@CodeWithCodeOfficial" },
               ].map((social, i) => (
                 <motion.a
                   key={i}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ y: -4, color: "#22C55E" }}
                   className="w-10 h-10 rounded-xl bg-surface border border-border-sleek flex items-center justify-center transition-colors text-text-muted hover:border-accent/40"
                 >
