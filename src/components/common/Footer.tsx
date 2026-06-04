@@ -286,15 +286,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
-          {/* Banner image — spans Platform + Resources columns */}
-          <div className="hidden lg:block lg:col-start-2 lg:col-span-2">
-            <img
-              src="/cockroach%20janata%20party.jpg"
-              alt="Cockroach Janta Party"
-              className="w-full rounded-2xl"
-            />
-          </div>
         </div>
 
         {/* Bottom Bar */}
