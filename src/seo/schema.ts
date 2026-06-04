@@ -12,6 +12,7 @@ export function organizationSchema() {
       "https://www.facebook.com/dareloop/",
       "https://www.youtube.com/@CodeWithCodeOfficial",
       "https://www.instagram.com/dareloop.app/",
+      "https://whatsapp.com/channel/0029VbCfgLY8F2pBqDpLf51m",
     ],
   };
 }
