@@ -288,6 +288,15 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Footer Banner Image */}
+        <div className="mb-10 flex justify-center">
+          <img
+            src="/cockroach%20janata%20party.jpg"
+            alt="Cockroach Janta Party"
+            className="w-full max-w-4xl rounded-2xl object-cover"
+          />
+        </div>
+
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-border-sleek flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-muted flex items-center gap-2">
