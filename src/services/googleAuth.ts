@@ -9,8 +9,8 @@ export const initGoogleAuth = (callback: (token: string) => void) => {
   /* global google */
   window.google.accounts.id.initialize({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    use_fedcm_for_prompt: false,
     callback: (response: any) => {
-      console.log("GOOGLE RESPONSE FULL:", response);
       if (!response?.credential) {
         console.error("❌ No credential received");
         return;
