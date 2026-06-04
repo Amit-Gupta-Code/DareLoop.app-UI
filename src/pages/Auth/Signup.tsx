@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { initGoogleAuth, triggerGoogleLogin } from "../../services/googleAuth";
+import { initGoogleAuth, renderGoogleButton } from "../../services/googleAuth";
 import API from "../../api/client";
 import { useAuthStore } from "../../store/authStore";
 import { SEOHead } from "@/src/seo/SEOHead";
@@ -82,6 +82,7 @@ const Signup = () => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/profile";
+  const googleBtnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isAuthenticated) navigate(from, { replace: true });
@@ -102,7 +103,15 @@ const Signup = () => {
         setLoading(false);
       }
     });
+    if (googleBtnRef.current) {
+      renderGoogleButton(googleBtnRef.current);
+    }
   }, []);
+
+  const handleGoogleLogin = () => {
+    const btn = googleBtnRef.current?.querySelector<HTMLElement>("div[role='button']");
+    btn?.click();
+  };
 
   return (
     <>
@@ -219,8 +228,10 @@ const Signup = () => {
 
               {/* Google CTA */}
               <div className="space-y-3">
+                {/* Hidden Google-rendered button — handles popup auth without FedCM */}
+                <div ref={googleBtnRef} className="hidden" />
                 <motion.button
-                  onClick={triggerGoogleLogin}
+                  onClick={handleGoogleLogin}
                   disabled={loading}
                   whileHover={{ scale: loading ? 1 : 1.015 }}
                   whileTap={{ scale: loading ? 1 : 0.975 }}

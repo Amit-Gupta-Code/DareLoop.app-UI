@@ -6,7 +6,6 @@ declare global {
 
 
 export const initGoogleAuth = (callback: (token: string) => void) => {
-  /* global google */
   window.google.accounts.id.initialize({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     use_fedcm_for_prompt: false,
@@ -16,10 +15,14 @@ export const initGoogleAuth = (callback: (token: string) => void) => {
         return;
       }
       callback(response.credential);
-    }
+    },
   });
 };
 
-export const triggerGoogleLogin = () => {
-  window.google.accounts.id.prompt();
+export const renderGoogleButton = (element: HTMLElement) => {
+  window.google.accounts.id.renderButton(element, {
+    type: "standard",
+    theme: "outline",
+    size: "large",
+  });
 };

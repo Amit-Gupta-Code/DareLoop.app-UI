@@ -2,7 +2,7 @@ import { TreeNode } from "@/src/components/animations/TreeNode";
 import { motion } from "framer-motion";
 import { CheckCircle, Share2, X, Rocket } from "lucide-react";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { getLoopDetail, joinLoop, LoopDetail, LoopParticipantNode } from "@/src/services/loopService";
 import { useAuthStore } from "@/src/store/authStore";
 import { toPng } from "html-to-image";
@@ -30,6 +30,7 @@ function dataUrlToFile(dataUrl: string, fileName: string): File {
 const ChallengeDetail = () => {
   const { code } = useParams();
   const { user } = useAuthStore();
+  const navigate = useNavigate();
   const [chain, setChain] = useState<LoopDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -118,6 +119,10 @@ const ChallengeDetail = () => {
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) {
+      navigate("/signup", { state: { from: { pathname: window.location.pathname } } });
+      return;
+    }
     if (!code || alreadyInThisLoop) return;
     setJoining(true);
     try {
