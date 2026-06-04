@@ -292,7 +292,7 @@ const Footer = () => {
             <img
               src="/cockroach%20janata%20party.jpg"
               alt="Cockroach Janta Party"
-              className="w-full h-48 rounded-2xl object-cover"
+              className="w-full rounded-2xl"
             />
           </div>
         </div>
