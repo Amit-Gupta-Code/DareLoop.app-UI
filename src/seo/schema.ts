@@ -11,6 +11,7 @@ export function organizationSchema() {
     sameAs: [
       "https://www.facebook.com/dareloop/",
       "https://www.youtube.com/@CodeWithCodeOfficial",
+      "https://www.instagram.com/dareloop.app/",
     ],
   };
 }

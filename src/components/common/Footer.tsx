@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import dareloopLogo from "../../assets/images/dareloop-logo.png";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Facebook, Youtube, ArrowRight, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
+import { Facebook, Youtube, Instagram, ArrowRight, Mail, Loader2, X, Rocket, Bell } from "lucide-react";
 import NetworkChainLoader from "./NetworkChainLoader";
 import { subscribeNewsletter } from "../../services/newsletterService";
 import { isAxiosError } from "axios";
@@ -158,13 +158,13 @@ const Footer = () => {
               <img src={dareloopLogo} alt="Dareloop" className="h-12 w-auto" />
             </div>
             <p className="text-text-muted text-sm leading-relaxed max-w-xs font-medium">
-              Revolutionizing digital growth through recursive node-based scaling. 
-              Join the evolution of creator ecosystems.
+              Grow your audience by teaming up with other creators. Share one link, build your network, and watch your reach multiply — automatically.
             </p>
             <div className="flex gap-4">
               {[
                 { icon: Facebook, href: "https://www.facebook.com/dareloop/" },
                 { icon: Youtube, href: "https://www.youtube.com/@CodeWithCodeOfficial" },
+                { icon: Instagram, href: "https://www.instagram.com/dareloop.app/" },
               ].map((social, i) => (
                 <motion.a
                   key={i}

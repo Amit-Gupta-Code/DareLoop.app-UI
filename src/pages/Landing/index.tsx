@@ -64,6 +64,189 @@ const MetricBox = ({
   </motion.div>
 );
 
+const HowItWorks = ({ isAuthenticated }: { isAuthenticated: boolean }) => (
+  <section className="mt-20 space-y-20">
+
+    {/* ── THE PROBLEM ─────────────────────────────── */}
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row items-end justify-between gap-6 border-b border-border-sleek pb-12">
+        <div className="space-y-4">
+          <span className="badge-green px-4 py-1">THE PROBLEM</span>
+          <h2 className="text-4xl md:text-6xl font-black text-text-main tracking-tighter uppercase italic">
+            Why Creators <br /><span className="text-accent">Hit a Wall.</span>
+          </h2>
+        </div>
+        <p className="text-text-muted text-lg max-w-md font-medium leading-relaxed mb-1">
+          Every creator faces the same three invisible barriers. Dareloop was built to break all three — simultaneously.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          {
+            icon: Zap,
+            iconBg: "bg-red-500/10",
+            iconColor: "text-red-400",
+            tag: "PROBLEM 01",
+            title: "Algorithms Bury Your Content",
+            desc: "Platforms decide who sees your work. Even your best posts disappear within hours — before your own audience gets a chance.",
+          },
+          {
+            icon: Eye,
+            iconBg: "bg-orange-400/10",
+            iconColor: "text-orange-400",
+            tag: "PROBLEM 02",
+            title: "Your Reach Has a Ceiling",
+            desc: "Your existing followers are finite. Without a distribution system, growth stalls no matter how consistently you create.",
+          },
+          {
+            icon: Users,
+            iconBg: "bg-yellow-400/10",
+            iconColor: "text-yellow-400",
+            tag: "PROBLEM 03",
+            title: "Creators Grow Alone",
+            desc: "Other creators aren't your competition — they're your biggest untapped distribution network. Most never unlock this.",
+          },
+        ].map((p, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12 }}
+            className="card-main bg-surface border-border-sleek p-8 space-y-4 hover:border-red-500/20 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-12 h-12 ${p.iconBg} rounded-2xl flex items-center justify-center`}>
+                <p.icon className={`w-6 h-6 ${p.iconColor}`} />
+              </div>
+              <span className="text-[9px] font-black uppercase tracking-widest text-text-muted">{p.tag}</span>
+            </div>
+            <h3 className="font-black text-text-main text-xl uppercase tracking-tight leading-snug">{p.title}</h3>
+            <p className="text-text-muted text-sm font-medium leading-relaxed">{p.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+
+    {/* ── HOW IT WORKS ────────────────────────────── */}
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row items-end justify-between gap-6 border-b border-border-sleek pb-12">
+        <div className="space-y-4">
+          <span className="badge-green px-4 py-1">HOW IT WORKS</span>
+          <h2 className="text-4xl md:text-6xl font-black text-text-main tracking-tighter uppercase italic">
+            Four Steps. <br /><span className="text-accent underline decoration-border-sleek">Infinite Reach.</span>
+          </h2>
+        </div>
+        <p className="text-text-muted text-lg max-w-md font-medium leading-relaxed mb-1">
+          Dareloop is a human-powered distribution tree. Every person who joins through your link becomes a permanent node — and their entire audience becomes yours.
+        </p>
+      </div>
+
+      {/* Step cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {[
+          {
+            num: 1, icon: Rocket, color: "text-accent", bg: "bg-accent/10", border: "border-accent/20",
+            title: "Create or Join a Loop",
+            desc: "Pick a loop in your niche or launch your own in under 60 seconds. No complex setup.",
+          },
+          {
+            num: 2, icon: Share2, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20",
+            title: "Share Your Unique Link",
+            desc: "Every participant gets one invite link. Post it anywhere — Instagram, YouTube, TikTok, X.",
+          },
+          {
+            num: 3, icon: Users, color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20",
+            title: "Your Network Joins",
+            desc: "People who click your link become permanent nodes under you in the distribution tree.",
+          },
+          {
+            num: 4, icon: TrendingUp, color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/20",
+            title: "Reach Compounds Forever",
+            desc: "Everyone they invite also multiplies your reach. Growth compounds with every generation — endlessly.",
+          },
+        ].map((step, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12 }}
+            className="card-main bg-surface border-border-sleek p-8 space-y-5 text-center"
+          >
+            <div className="relative inline-flex mx-auto">
+              <div className={`w-16 h-16 ${step.bg} border ${step.border} rounded-2xl flex items-center justify-center`}>
+                <step.icon className={`w-7 h-7 ${step.color}`} />
+              </div>
+              <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-card-bg border border-border-sleek text-[10px] font-black ${step.color} flex items-center justify-center`}>
+                {step.num}
+              </span>
+            </div>
+            <h3 className={`font-black text-sm uppercase tracking-tight leading-snug ${step.color}`}>{step.title}</h3>
+            <p className="text-text-muted text-sm font-medium leading-relaxed">{step.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Growth multiplier visual */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="card-main bg-surface border-border-sleek p-8 md:p-12 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
+        <div className="relative z-10 space-y-10">
+          <div className="text-center space-y-2">
+            <span className="text-[9px] font-black uppercase tracking-widest text-text-muted">REAL EXAMPLE — YOU INVITE JUST 3 PEOPLE</span>
+            <h3 className="text-3xl md:text-4xl font-black text-text-main uppercase italic tracking-tight">
+              3 Invites. 27 Reach. <span className="text-accent">Compounding Forever.</span>
+            </h3>
+          </div>
+
+          {/* Multiplier flow */}
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+            {[
+              { level: "YOU", count: "1", desc: "Root node", color: "text-accent", bg: "bg-accent/10", border: "border-accent/30" },
+              { level: "LEVEL 1", count: "3", desc: "Direct invites", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-400/30" },
+              { level: "LEVEL 2", count: "9", desc: "Their network", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-400/30" },
+              { level: "LEVEL 3", count: "27", desc: "Next generation", color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-400/30" },
+              { level: "BEYOND", count: "∞", desc: "Compounds forever", color: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-400/30" },
+            ].map((item, i, arr) => (
+              <React.Fragment key={i}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  className={`${item.bg} border ${item.border} rounded-2xl p-5 text-center min-w-[90px]`}
+                >
+                  <div className="text-[8px] font-black uppercase tracking-widest text-text-muted mb-2">{item.level}</div>
+                  <div className={`text-3xl font-black italic ${item.color}`}>{item.count}</div>
+                  <div className="text-[10px] font-medium text-text-muted mt-1 leading-tight">{item.desc}</div>
+                </motion.div>
+                {i < arr.length - 1 && (
+                  <ChevronRight className="w-5 h-5 text-text-muted flex-shrink-0 hidden sm:block" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link to={isAuthenticated ? "/create" : "/signup"} className="btn-viral px-10 py-5 text-base group">
+              Start My Loop <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link to="/explore" className="btn-sleek bg-surface border-border-sleek px-8 py-5 text-base hover:bg-card-bg">
+              Explore Active Loops
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </section>
+);
+
 const Landing = () => {
   const [stats] = useState(MOCK_DATA.stats);
   const [spotlights, setSpotlights] = useState<TrendingSpotlight[]>([]);
@@ -191,6 +374,9 @@ const Landing = () => {
     <div className="max-w-[1440px] mx-auto pt-12 pb-24 px-6 md:px-12 animate-in fade-in duration-700">
       {/* 2027 Hero */}
       <KineticTitle />
+
+      {/* Why & How It Works */}
+      <HowItWorks isAuthenticated={isAuthenticated} />
 
       {/* Spatial Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-12">
