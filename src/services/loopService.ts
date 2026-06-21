@@ -4,6 +4,7 @@ export interface Loop {
   id: string;
   title: string;
   description: string;
+  banner_image: string | null;
   status: string;
   root_code: string;
   participant_count: number;
@@ -24,8 +25,15 @@ export const getJoinedLoops = async (): Promise<Loop[]> => {
   return data.data as Loop[];
 };
 
-export const createLoop = async (title: string, description: string) => {
-  const { data } = await API.post("/challenges", { title, description });
+export const createLoop = async (title: string, description: string, bannerImage?: File | null) => {
+  const form = new FormData();
+  form.append("title", title);
+  form.append("description", description);
+  if (bannerImage) form.append("banner_image", bannerImage);
+
+  const { data } = await API.post("/challenges", form, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return data.data as { challenge_id: string; code: string };
 };
 
@@ -47,6 +55,7 @@ export interface LoopDetail {
   challenge_id: string;
   challenge_title: string;
   challenge_description: string;
+  challenge_banner_image: string | null;
   current_code: string;
   current_depth: number;
   is_trending: boolean;

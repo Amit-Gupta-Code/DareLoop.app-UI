@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ChevronRight, Sparkles, ShieldCheck, Target } from "lucide-react";
+import { ChevronRight, ImagePlus, Sparkles, ShieldCheck, Target, X } from "lucide-react";
 import { createLoop } from "../../services/loopService";
 import { useAuthStore } from "../../store/authStore";
 
 const CreateChallenge = () => {
   const [formData, setFormData] = useState({ title: "", description: "" });
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [bannerPreview, setBannerPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{
     title?: string;
     description?: string;
+    banner_image?: string;
   }>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const titleMin = 5;
@@ -27,7 +31,6 @@ const CreateChallenge = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    // Keep user on this page while creating a loop.
     const lockBackNavigation = () => {
       window.history.pushState(null, "", window.location.href);
     };
@@ -36,8 +39,28 @@ const CreateChallenge = () => {
     return () => window.removeEventListener("popstate", lockBackNavigation);
   }, []);
 
+  const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 4 * 1024 * 1024) {
+      setFieldErrors((prev) => ({ ...prev, banner_image: "Image must be under 4MB." }));
+      return;
+    }
+    setFieldErrors((prev) => ({ ...prev, banner_image: undefined }));
+    setBannerFile(file);
+    setBannerPreview(URL.createObjectURL(file));
+  };
+
+  const removeBanner = () => {
+    setBannerFile(null);
+    if (bannerPreview) URL.revokeObjectURL(bannerPreview);
+    setBannerPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const validate = () => {
-    const nextErrors: { title?: string; description?: string } = {};
+    const nextErrors: typeof fieldErrors = {};
     const title = formData.title.trim();
     const description = formData.description.trim();
 
@@ -67,7 +90,7 @@ const CreateChallenge = () => {
     setLoading(true);
     setError(null);
     try {
-      const { code } = await createLoop(formData.title.trim(), formData.description.trim());
+      const { code } = await createLoop(formData.title.trim(), formData.description.trim(), bannerFile);
       navigate(`/c/${code}`);
     } catch (err: unknown) {
       const msg =
@@ -123,6 +146,61 @@ const CreateChallenge = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Banner Image Upload */}
+          <div className="space-y-2">
+            <label className="stat-label block cursor-default">Banner Image <span className="text-text-muted normal-case font-medium">(optional)</span></label>
+            {bannerPreview ? (
+              <div className="relative rounded-2xl overflow-hidden border border-border-sleek group">
+                <img
+                  src={bannerPreview}
+                  alt="Banner preview"
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-4 py-2 bg-white text-primary rounded-lg text-[12px] font-black uppercase tracking-widest"
+                  >
+                    Change
+                  </button>
+                  <button
+                    type="button"
+                    onClick={removeBanner}
+                    className="p-2 bg-red-500 text-white rounded-lg"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full h-40 rounded-2xl border-2 border-dashed border-border-sleek bg-surface hover:border-accent/50 hover:bg-accent/5 transition-all flex flex-col items-center justify-center gap-3 group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <ImagePlus className="w-6 h-6 text-accent" />
+                </div>
+                <div className="text-center">
+                  <p className="text-[13px] font-black text-text-main">Upload Banner Image</p>
+                  <p className="text-[11px] text-text-muted mt-1">PNG, JPG, WEBP · Max 4MB · 16:9 recommended</p>
+                </div>
+              </button>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleBannerChange}
+            />
+            {fieldErrors.banner_image && (
+              <p className="text-red-500 text-[11px] font-bold">{fieldErrors.banner_image}</p>
+            )}
+          </div>
+
+          {/* Loop Name */}
           <div className="space-y-2">
             <label className="stat-label block cursor-default">Loop Name</label>
             <input
@@ -141,6 +219,8 @@ const CreateChallenge = () => {
               <span className="text-text-muted">{titleLength}/{titleMax}</span>
             </div>
           </div>
+
+          {/* Growth Mission */}
           <div className="space-y-2">
             <label className="stat-label block cursor-default">
               Growth Mission
@@ -162,6 +242,7 @@ const CreateChallenge = () => {
               <span className="text-text-muted">{missionLength}/{missionMax}</span>
             </div>
           </div>
+
           {error && (
             <p className="text-red-500 text-sm text-center">{error}</p>
           )}
