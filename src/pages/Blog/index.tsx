@@ -5,6 +5,17 @@ import { Calendar, ArrowRight, BookOpen } from "lucide-react";
 import { getBlogs, type BlogPost } from "@/src/services/blogService";
 import { SEOHead } from "@/src/seo/SEOHead";
 
+const BANNERS = [
+  "from-violet-500/20 via-blue-500/10 to-indigo-500/20",
+  "from-emerald-500/20 via-teal-500/10 to-cyan-500/20",
+  "from-rose-500/20 via-pink-500/10 to-fuchsia-500/20",
+  "from-amber-500/20 via-orange-500/10 to-red-500/20",
+  "from-blue-500/20 via-cyan-500/10 to-emerald-500/20",
+  "from-purple-500/20 via-violet-500/10 to-pink-500/20",
+];
+
+const getBanner = (id: number) => BANNERS[id % BANNERS.length];
+
 const formatDate = (dateStr: string | null): string => {
   if (!dateStr) return "";
   return new Date(dateStr).toLocaleDateString("en-US", {
@@ -77,8 +88,9 @@ const BlogIndex = () => {
                       />
                     </div>
                   ) : (
-                    <div className="h-48 bg-accent/5 flex items-center justify-center border-b border-border-sleek">
-                      <BookOpen className="w-10 h-10 text-accent/30" />
+                    <div className={`h-48 bg-gradient-to-br ${getBanner(post.id)} flex items-center justify-center border-b border-border-sleek relative overflow-hidden`}>
+                      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, white 1px, transparent 1px), radial-gradient(circle at 70% 80%, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+                      <BookOpen className="w-10 h-10 text-white/30 relative z-10" />
                     </div>
                   )}
                   <div className="p-6 flex flex-col flex-1 space-y-3">

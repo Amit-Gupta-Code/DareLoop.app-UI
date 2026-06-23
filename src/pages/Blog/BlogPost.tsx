@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
 import { getBlog, type BlogPostDetail } from "@/src/services/blogService";
 import { SEOHead } from "@/src/seo/SEOHead";
 
@@ -11,6 +11,12 @@ const formatDate = (dateStr: string | null): string => {
     day: "numeric",
     year: "numeric",
   });
+};
+
+const calcReadTime = (html: string): number => {
+  const text = html.replace(/<[^>]+>/g, " ");
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
 };
 
 const BlogPost = () => {
@@ -46,12 +52,19 @@ const BlogPost = () => {
     );
   }
 
+  const readTime = calcReadTime(post.content);
+  const keywordList = post.keywords
+    ? post.keywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : [];
+
   return (
     <>
       <SEOHead
         title={post.title}
         description={post.excerpt ?? `Read "${post.title}" on the Dareloop Blog.`}
+        keywords={post.keywords ?? undefined}
         canonical={`/blog/${post.slug}`}
+        ogType="article"
       />
       <div className="max-w-[800px] mx-auto pt-24 pb-20 px-4 md:px-8 lg:px-12 animate-in fade-in duration-500">
         <Link
@@ -76,9 +89,16 @@ const BlogPost = () => {
           {post.excerpt && (
             <p className="text-text-muted text-[15px] leading-relaxed font-medium">{post.excerpt}</p>
           )}
-          <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-text-muted">
-            <Calendar className="w-3.5 h-3.5" />
-            {formatDate(post.published_at ?? post.created_at)}
+          <div className="flex items-center gap-4 text-[11px] font-black uppercase tracking-widest text-text-muted">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5" />
+              {formatDate(post.published_at ?? post.created_at)}
+            </span>
+            <span className="w-px h-3 bg-border-sleek" />
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5" />
+              {readTime} min read
+            </span>
           </div>
         </div>
 
@@ -99,6 +119,25 @@ const BlogPost = () => {
             [&_hr]:border-border-sleek [&_hr]:my-6"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        {keywordList.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-border-sleek space-y-3">
+            <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-text-muted">
+              <Tag className="w-3.5 h-3.5" />
+              Topics
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {keywordList.map((kw) => (
+                <span
+                  key={kw}
+                  className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20 transition-colors cursor-default"
+                >
+                  {kw}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

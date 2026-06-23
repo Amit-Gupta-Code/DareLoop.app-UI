@@ -12,6 +12,7 @@ export interface BlogPost {
 
 export interface BlogPostDetail extends BlogPost {
   content: string;
+  keywords: string | null;
 }
 
 export const getBlogs = async (): Promise<BlogPost[]> => {
