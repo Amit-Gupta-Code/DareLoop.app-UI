@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Landing from "./pages/Landing";
@@ -59,6 +60,7 @@ function App() {
     <BrowserRouter>
       <RouteTracker />
       <NotificationInit />
+      <SpeedInsights />
       <div className="flex min-h-screen flex-col">
         <Navbar />
 
