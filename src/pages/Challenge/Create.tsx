@@ -122,11 +122,11 @@ const CreateChallenge = () => {
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-accent via-highlight to-secondary" />
         <div className="text-center space-y-3">
           <span className="badge-green inline-flex items-center gap-2">
-            Loop Initiation ⚡ <Sparkles className="w-3.5 h-3.5" />
+            Dream. Dare. Done. <Sparkles className="w-3.5 h-3.5" />
           </span>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">Spawn Growth Loop</h2>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">Tell us your dream</h2>
           <p className="text-text-muted text-[15px] md:text-[16px] max-w-xl mx-auto">
-            Craft a magnetic mission, launch your loop, and attract creators into your growth tree.
+            We'll turn it into today's mission — then launch a loop others can join and complete.
           </p>
         </div>
 

@@ -6,14 +6,15 @@ import { useAuthStore } from "../../store/authStore";
 import { SEOHead } from "@/src/seo/SEOHead";
 import { motion } from "framer-motion";
 import { CheckCircle, Zap, Users, TrendingUp, ArrowRight, ShieldCheck } from "lucide-react";
+import { DreamDareDone } from "@/src/components/brand/DreamDareDone";
+import { BRAND_NAME, ONBOARDING_HOOK, TAGLINE } from "@/src/brand/constants";
 
 const PERKS = [
-  { icon: Zap, text: "Launch a loop in under 60 seconds" },
-  { icon: Users, text: "Connect with 12,000+ builders worldwide" },
+  { icon: Zap, text: "Turn your dream into today's mission" },
+  { icon: Users, text: "Connect with builders worldwide" },
   { icon: TrendingUp, text: "Track streaks & climb leaderboards" },
   { icon: ShieldCheck, text: "Private by default — share only what you choose" },
 ];
-
 const STATS = [
   { value: "12K+", label: "Active builders" },
   { value: "94%", label: "Streak retention" },
@@ -81,11 +82,13 @@ const Signup = () => {
   const loading = useAuthStore((s) => s.loading);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/profile";
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/plans/create";
   const googleBtnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isAuthenticated) navigate(from, { replace: true });
+    if (!isAuthenticated) return;
+    const completed = useAuthStore.getState().user?.onboarding_completed;
+    navigate(completed ? from : "/onboarding", { replace: true });
   }, [isAuthenticated, navigate, from]);
 
   useEffect(() => {
@@ -96,7 +99,7 @@ const Signup = () => {
         const { user, access_token } = res.data.data;
         localStorage.setItem("access_token", access_token);
         setAuth(user);
-        navigate(from, { replace: true });
+        navigate(user?.onboarding_completed ? from : "/onboarding", { replace: true });
       } catch (err) {
         console.error("Google login failed", err);
       } finally {
@@ -116,15 +119,15 @@ const Signup = () => {
   return (
     <>
       <SEOHead
-        title="Sign Up — Start Your First Challenge"
-        description="Join Challenge Loop for free. Sign up in seconds with Google and start your first challenge today. Track streaks, compete on leaderboards, stay accountable."
+        title={`Sign Up — ${TAGLINE}`}
+        description={ONBOARDING_HOOK}
         canonical="/signup"
         noindex={true}
       />
 
       <div className="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row">
 
-        {/* ── Left panel ───────────────────────────────────────────── */}
+        {/* ── Left panel — onboarding first screen ─────────────────── */}
         <div className="relative hidden lg:flex flex-col justify-between overflow-hidden lg:w-[58%] bg-primary px-14 py-16">
           <FloatingNodes />
 
@@ -137,25 +140,18 @@ const Signup = () => {
           >
             <span className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent text-[11px] font-black uppercase tracking-widest px-4 py-2 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Live network · {STATS[2].value} countries
+              {BRAND_NAME} · {TAGLINE}
             </span>
           </motion.div>
 
-          {/* headline */}
+          {/* headline — first onboarding screen */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="relative z-10 space-y-6"
+            className="relative z-10 space-y-8"
           >
-            <h1 className="text-[clamp(2.6rem,5vw,4rem)] font-black leading-[1.08] text-white tracking-tight">
-              Build habits.<br />
-              <span className="text-accent">Chain momentum.</span><br />
-              Own your growth.
-            </h1>
-            <p className="text-slate-400 text-lg leading-relaxed max-w-md">
-              Dareloop turns daily commitments into compounding results. Join thousands of builders who ship consistently.
-            </p>
+            <DreamDareDone variant="onboarding" />
 
             {/* perks */}
             <ul className="space-y-3 pt-2">
@@ -195,12 +191,9 @@ const Signup = () => {
         {/* ── Right panel ──────────────────────────────────────────── */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-14 bg-surface">
 
-          {/* mobile-only brand */}
-          <div className="lg:hidden mb-10 text-center space-y-2">
-            <span className="font-black text-3xl text-primary">
-              DARELOOP
-            </span>
-            <p className="text-text-muted text-sm">Build habits. Chain momentum.</p>
+          {/* mobile-only brand — same onboarding first screen */}
+          <div className="lg:hidden mb-10 w-full max-w-[420px]">
+            <DreamDareDone variant="onboarding" tone="light" />
           </div>
 
           <motion.div
@@ -222,7 +215,7 @@ const Signup = () => {
                   Create your account
                 </h2>
                 <p className="text-text-muted text-[14px] leading-relaxed">
-                  One click and you're in — no credit card, no setup, no friction.
+                  {ONBOARDING_HOOK}
                 </p>
               </div>
 

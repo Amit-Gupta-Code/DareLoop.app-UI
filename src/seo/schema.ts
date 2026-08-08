@@ -1,5 +1,6 @@
 const SITE_URL = import.meta.env.VITE_APP_URL || "https://www.dareloop.app";
-const SITE_NAME = "Dareloop";
+const SITE_NAME = "DareLoop";
+const SITE_SLOGAN = "Dream. Dare. Done.";
 
 /** Organization schema — used in homepage and global footer */
 export function organizationSchema() {
@@ -7,6 +8,7 @@ export function organizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
+    slogan: SITE_SLOGAN,
     url: SITE_URL,
     sameAs: [
       "https://www.facebook.com/dareloop/",
@@ -23,9 +25,10 @@ export function webAppSchema() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: SITE_NAME,
+    slogan: SITE_SLOGAN,
     url: SITE_URL,
     description:
-      "A gamified challenge and accountability platform where users join, create, and complete 30-day challenges with streak tracking and community leaderboards.",
+      "Dream. Dare. Done. DareLoop turns dreams into daily executable missions with verified loops and community accountability.",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
     inLanguage: "en",

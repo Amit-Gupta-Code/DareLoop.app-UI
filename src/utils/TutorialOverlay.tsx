@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Rocket, Zap, Users, ChevronRight, ChevronLeft } from "lucide-react";
+import { TAGLINE } from "../brand/constants";
 
 /**
  * TutorialOverlay Component
- * A dismissible, multi-step tutorial explaining Dareloop's recursive growth concept.
+ * A dismissible, multi-step tutorial explaining DareLoop's Dream → Dare → Done loop.
  */
 
 const TUTORIAL_STEPS = [
   {
-    title: "The Growth Loop",
-    description: "Dareloop isn't just a sharing tool. It's a recursive engine where every new joiner becomes a node that spawns its own growth tree.",
+    title: TAGLINE,
+    description: "Tell us your dream. We'll turn it into today's mission — then help you execute until it's Done.",
     icon: Zap,
     color: "text-yellow-400"
   },
   {
-    title: "Recursive Nodes",
-    description: "When someone joins your loop, they don't just 'follow'. They create a new branch, connecting their network to yours automatically.",
+    title: "Dare Daily",
+    description: "Every dream becomes a verified daily mission. Complete it privately first — then share the proof.",
     icon: Users,
     color: "text-accent"
   },
   {
-    title: "Viral Momentum",
-    description: "Track your 'Reach Velocity' in real-time. Watch as your single share turns into thousands of connections through geometric progression.",
+    title: "Done Compounds",
+    description: "Verified completions become Blueprints. Others join your path — and your reach compounds with every Done.",
     icon: Rocket,
     color: "text-blue-400"
   }

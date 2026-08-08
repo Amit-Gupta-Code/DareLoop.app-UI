@@ -368,7 +368,7 @@ const ChallengeDetail = () => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <img src={defaultBanner} alt="ChainLoop" className="w-full h-full object-cover" draggable={false} />
+          <img src={defaultBanner} alt="DareLoop" className="w-full h-full object-cover" draggable={false} />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex items-end justify-between gap-4">

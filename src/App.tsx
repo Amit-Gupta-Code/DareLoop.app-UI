@@ -21,6 +21,10 @@ const StaticPage = lazy(() => import("./pages/Static/StaticPage"));
 const BlogIndex     = lazy(() => import("./pages/Blog"));
 const BlogPost      = lazy(() => import("./pages/Blog/BlogPost"));
 const Documentation = lazy(() => import("./pages/Documentation"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
+const CreatePlan = lazy(() => import("./pages/Plans/CreatePlan"));
+const PlanDetail = lazy(() => import("./pages/Plans/PlanDetail"));
+const PlanDayView = lazy(() => import("./pages/Plans/PlanDayView"));
 
 function RouteTracker() {
   const { pathname } = useLocation();
@@ -50,6 +54,49 @@ function NotificationInit() {
   return null;
 }
 
+function AppShell() {
+  const { pathname } = useLocation();
+  const hideChrome = pathname.startsWith("/onboarding");
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      {!hideChrome && <Navbar />}
+
+      <main className="flex flex-1 flex-col">
+        <Suspense fallback={<div className="flex flex-1 min-h-[50vh]" />}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Signup />} />
+            <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
+            <Route path="/plans/create" element={<RequireAuth><CreatePlan /></RequireAuth>} />
+            <Route path="/plans/:uuid" element={<RequireAuth><PlanDetail /></RequireAuth>} />
+            <Route path="/plans/:uuid/days/:dayNumber" element={<RequireAuth><PlanDayView /></RequireAuth>} />
+            <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
+            <Route path="/profile/edit" element={<RequireAuth><EditProfile /></RequireAuth>} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/c/:code" element={<ChallengeDetail />} />
+            <Route path="/create" element={<RequireAuth><CreateChallenge /></RequireAuth>} />
+            <Route path="/blog" element={<BlogIndex />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/documentation" element={<Documentation />} />
+            {/* TODO: Next phase — API Reference route <Route path="/api-reference" element={<StaticPage pageKey="api-reference" />} /> */}
+            <Route path="/growth-engine-lab" element={<StaticPage pageKey="growth-engine-lab" />} />
+            <Route path="/whitepaper" element={<StaticPage pageKey="whitepaper" />} />
+            <Route path="/privacy-policy" element={<StaticPage pageKey="privacy-policy" />} />
+            <Route path="/terms-of-service" element={<StaticPage pageKey="terms-of-service" />} />
+            <Route path="/cookies" element={<StaticPage pageKey="cookies" />} />
+            <Route path="*" element={<Landing />} />
+          </Routes>
+        </Suspense>
+      </main>
+
+      {!hideChrome && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   useEffect(() => {
     useTokenExpiry();
@@ -59,37 +106,7 @@ function App() {
     <BrowserRouter>
       <RouteTracker />
       <NotificationInit />
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
-
-        <main className="flex flex-1 flex-col">
-          <Suspense fallback={<div className="flex flex-1 min-h-[50vh]" />}>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Signup />} />
-              <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
-              <Route path="/profile/edit" element={<RequireAuth><EditProfile /></RequireAuth>} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/c/:code" element={<ChallengeDetail />} />
-              <Route path="/create" element={<RequireAuth><CreateChallenge /></RequireAuth>} />
-              <Route path="/blog" element={<BlogIndex />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/documentation" element={<Documentation />} />
-              {/* TODO: Next phase — API Reference route <Route path="/api-reference" element={<StaticPage pageKey="api-reference" />} /> */}
-              <Route path="/growth-engine-lab" element={<StaticPage pageKey="growth-engine-lab" />} />
-              <Route path="/whitepaper" element={<StaticPage pageKey="whitepaper" />} />
-              <Route path="/privacy-policy" element={<StaticPage pageKey="privacy-policy" />} />
-              <Route path="/terms-of-service" element={<StaticPage pageKey="terms-of-service" />} />
-              <Route path="/cookies" element={<StaticPage pageKey="cookies" />} />
-              <Route path="*" element={<Landing />} />
-            </Routes>
-          </Suspense>
-        </main>
-
-        <Footer />
-      </div>
+      <AppShell />
     </BrowserRouter>
     </HelmetProvider>
   );

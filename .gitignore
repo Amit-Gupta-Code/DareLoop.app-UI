@@ -3,6 +3,17 @@
 .env
 .env.backup
 .env.production
+.env.save
+.env-s
+.env.testing
+client_secret_*.json
+oauth_*.json
+service_account*.json
+*.pem
+*.key
+recovery-codes*.txt
+2fa-recovery*.txt
+vercel-*.txt
 .phpactor.json
 .phpunit.result.cache
 fleet

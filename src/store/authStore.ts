@@ -9,6 +9,8 @@ interface User {
   profile_pic?: string;
   handle?: string;
   bio?: string;
+  onboarding_completed?: boolean;
+  subscription_tier?: string;
 }
 
 interface AuthState {

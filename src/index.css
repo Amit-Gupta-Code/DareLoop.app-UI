@@ -98,3 +98,61 @@
 .stat-trend {
   @apply text-[12px] font-medium text-accent mt-1;
 }
+
+/* ── Loop Helix Scroll (landing 3D corridor) ── */
+.helix-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+}
+
+.helix-world {
+  transform-style: preserve-3d;
+}
+
+.helix-ring,
+.helix-panel {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.helix-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.35) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  transform: perspective(600px) rotateX(58deg) scale(1.6);
+  transform-origin: center 70%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .helix-ring,
+  .helix-panel {
+    will-change: auto;
+  }
+}
+
+/* ── Footer 3D depth deck ── */
+.footer-3d {
+  isolation: isolate;
+}
+
+.footer-stage {
+  transform-style: preserve-3d;
+}
+
+.footer-depth-panel {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.footer-floor {
+  background-image:
+    linear-gradient(rgba(34, 197, 94, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to top, black 10%, transparent 85%);
+  transform: perspective(700px) rotateX(62deg) scale(1.35);
+  transform-origin: center bottom;
+}

@@ -8,7 +8,7 @@ import { exploreSchema, breadcrumbSchema } from "@/src/seo/schema";
 import defaultBanner from "../../assets/images/facebook-banner-dareloop.png";
 
 const BannerPlaceholder = () => (
-  <img src={defaultBanner} alt="ChainLoop" className="w-full h-full object-cover" draggable={false} />
+  <img src={defaultBanner} alt="DareLoop" className="w-full h-full object-cover" draggable={false} />
 );
 
 const Explore = () => {

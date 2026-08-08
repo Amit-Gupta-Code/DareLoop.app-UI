@@ -6,12 +6,12 @@ import { SEOHead } from "@/src/seo/SEOHead";
 import { webAppSchema, organizationSchema, faqSchema } from "@/src/seo/schema";
 
 const NetworkChainLoader = lazy(() => import("../../components/common/NetworkChainLoader"));
+const LoopHelixScroll = lazy(() => import("../../components/animations/LoopHelixScroll"));
 import { useAuthStore } from "../../store/authStore";
 import { getTrendingSpotlights, type TrendingSpotlight } from "../../services/landingService";
 import { type Platform } from "@/src/utils/helpers";
 import {
   Users,
-  Link as LinkIcon,
   Rocket,
   TrendingUp,
   Star,
@@ -27,14 +27,18 @@ import {
   Check,
   Share2,
   Sparkles,
-  Activity,
   Eye,
   ArrowRight,
+  Brain,
+  Camera,
+  Lock,
+  Unlock,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
 import { getPlatformIcon } from "@/src/utils/helpers";
-import { cn } from "@/src/utils/cn";
+import { DreamDareDone } from "@/src/components/brand/DreamDareDone";
+import { BRAND_NAME, TAGLINE, SEO_DEFAULT_DESCRIPTION } from "@/src/brand/constants";
 
 const MetricBox = ({
   label,
@@ -67,6 +71,20 @@ const MetricBox = ({
 const HowItWorks = ({ isAuthenticated }: { isAuthenticated: boolean }) => (
   <section className="mt-20 space-y-20">
 
+    {/* ── BRAND LOOP ──────────────────────────────── */}
+    <div className="space-y-10">
+      <div className="text-center space-y-4 max-w-2xl mx-auto">
+        <span className="badge-green px-4 py-1">THE LOOP</span>
+        <h2 className="text-4xl md:text-6xl font-black text-text-main tracking-tighter uppercase italic">
+          Three words. <br /><span className="text-accent">One system.</span>
+        </h2>
+        <p className="text-text-muted text-lg font-medium leading-relaxed">
+          Every category — creators, fitness, coding, startups — runs on the same loop. Name it. Dare it. Done.
+        </p>
+      </div>
+      <DreamDareDone variant="steps" />
+    </div>
+
     {/* ── THE PROBLEM ─────────────────────────────── */}
     <div className="space-y-12">
       <div className="flex flex-col md:flex-row items-end justify-between gap-6 border-b border-border-sleek pb-12">
@@ -77,7 +95,7 @@ const HowItWorks = ({ isAuthenticated }: { isAuthenticated: boolean }) => (
           </h2>
         </div>
         <p className="text-text-muted text-lg max-w-md font-medium leading-relaxed mb-1">
-          Every creator faces the same three invisible barriers. Dareloop was built to break all three — simultaneously.
+          Every creator faces the same three invisible barriers. {BRAND_NAME} was built to break all three — simultaneously.
         </p>
       </div>
 
@@ -135,58 +153,151 @@ const HowItWorks = ({ isAuthenticated }: { isAuthenticated: boolean }) => (
         <div className="space-y-4">
           <span className="badge-green px-4 py-1">HOW IT WORKS</span>
           <h2 className="text-4xl md:text-6xl font-black text-text-main tracking-tighter uppercase italic">
-            Four Steps. <br /><span className="text-accent underline decoration-border-sleek">Infinite Reach.</span>
+            Six Levels. <br /><span className="text-accent underline decoration-border-sleek">One Life Change.</span>
           </h2>
         </div>
         <p className="text-text-muted text-lg max-w-md font-medium leading-relaxed mb-1">
-          Dareloop is a human-powered distribution tree. Every person who joins through your link becomes a permanent node — and their entire audience becomes yours.
+          This isn't another app. It's a game you enter. AI builds your plan. You earn the first proof. Only then does the viral loop unlock.
         </p>
       </div>
 
-      {/* Step cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[
-          {
-            num: 1, icon: Rocket, color: "text-accent", bg: "bg-accent/10", border: "border-accent/20",
-            title: "Create or Join a Loop",
-            desc: "Pick a loop in your niche or launch your own in under 60 seconds. No complex setup.",
-          },
-          {
-            num: 2, icon: Share2, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20",
-            title: "Share Your Unique Link",
-            desc: "Every participant gets one invite link. Post it anywhere — Instagram, YouTube, TikTok, X.",
-          },
-          {
-            num: 3, icon: Users, color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20",
-            title: "Your Network Joins",
-            desc: "People who click your link become permanent nodes under you in the distribution tree.",
-          },
-          {
-            num: 4, icon: TrendingUp, color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/20",
-            title: "Reach Compounds Forever",
-            desc: "Everyone they invite also multiplies your reach. Growth compounds with every generation — endlessly.",
-          },
-        ].map((step, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.12 }}
-            className="card-main bg-surface border-border-sleek p-8 space-y-5 text-center"
-          >
-            <div className="relative inline-flex mx-auto">
-              <div className={`w-16 h-16 ${step.bg} border ${step.border} rounded-2xl flex items-center justify-center`}>
-                <step.icon className={`w-7 h-7 ${step.color}`} />
+      {/* ── PHASE 1: ENTRY GATE ───────────────────── */}
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] w-fit">
+            <Lock className="w-3.5 h-3.5 text-accent" />
+            Phase 01 — Entry Gate
+          </span>
+          <p className="text-sm font-bold text-text-muted uppercase tracking-wider">
+            Prove you're ready. No shortcuts.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            {
+              num: 1,
+              icon: Brain,
+              color: "text-accent",
+              bg: "bg-accent/10",
+              border: "border-accent/30",
+              glow: "hover:border-accent/50 hover:shadow-[0_0_40px_rgba(34,197,94,0.12)]",
+              phase: "AI TAKES CONTROL",
+              title: "Create Your Plan",
+              desc: "Tell DareLoop your dream. Our AI interviews you, takes the controls, and builds a day-by-day battle plan. You don't invent the path — you walk it.",
+            },
+            {
+              num: 2,
+              icon: Camera,
+              color: "text-highlight",
+              bg: "bg-highlight/10",
+              border: "border-highlight/30",
+              glow: "hover:border-highlight/50 hover:shadow-[0_0_40px_rgba(245,158,11,0.12)]",
+              phase: "PUBLIC PROOF REQUIRED",
+              title: "Submit First Proof",
+              desc: "Do the work. Then post proof in public — Instagram, YouTube, TikTok, X. No private claims. No fake progress. Proof unlocks the arena.",
+            },
+          ].map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12 }}
+              className={`card-main bg-surface border ${step.border} p-8 md:p-10 space-y-5 relative overflow-hidden transition-all ${step.glow}`}
+            >
+              <div className={`absolute -top-10 -right-10 w-40 h-40 ${step.bg} rounded-full blur-3xl pointer-events-none`} />
+              <div className="relative z-10 flex items-start justify-between gap-4">
+                <div className={`w-16 h-16 ${step.bg} border ${step.border} rounded-2xl flex items-center justify-center shrink-0`}>
+                  <step.icon className={`w-7 h-7 ${step.color}`} />
+                </div>
+                <span className={`w-9 h-9 rounded-full bg-card-bg border ${step.border} text-sm font-black ${step.color} flex items-center justify-center`}>
+                  {step.num}
+                </span>
               </div>
-              <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-card-bg border border-border-sleek text-[10px] font-black ${step.color} flex items-center justify-center`}>
-                {step.num}
-              </span>
-            </div>
-            <h3 className={`font-black text-sm uppercase tracking-tight leading-snug ${step.color}`}>{step.title}</h3>
-            <p className="text-text-muted text-sm font-medium leading-relaxed">{step.desc}</p>
-          </motion.div>
-        ))}
+              <div className="relative z-10 space-y-2">
+                <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${step.color}`}>{step.phase}</span>
+                <h3 className="font-black text-2xl text-text-main uppercase tracking-tight leading-snug">{step.title}</h3>
+                <p className="text-text-muted text-sm md:text-base font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Unlock divider */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="relative flex items-center justify-center py-2"
+      >
+        <div className="absolute inset-x-0 top-1/2 h-px bg-border-sleek" />
+        <div className="relative z-10 inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-card-bg border border-accent/30 shadow-[0_0_30px_rgba(34,197,94,0.15)]">
+          <Unlock className="w-4 h-4 text-accent" />
+          <span className="text-[11px] font-black uppercase tracking-[0.18em] text-accent">
+            Gate cleared — Viral Loop Unlocks
+          </span>
+          <Sparkles className="w-4 h-4 text-accent" />
+        </div>
+      </motion.div>
+
+      {/* ── PHASE 2: VIRAL LOOP ───────────────────── */}
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/15 border border-accent/25 text-accent text-[10px] font-black uppercase tracking-[0.2em] w-fit">
+            <Rocket className="w-3.5 h-3.5" />
+            Phase 02 — The Viral Loop
+          </span>
+          <p className="text-sm font-bold text-text-muted uppercase tracking-wider">
+            Now your reach starts compounding.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            {
+              num: 3, icon: Rocket, color: "text-accent", bg: "bg-accent/10", border: "border-accent/20",
+              title: "Create or Join a Loop",
+              desc: "You're in. Pick a loop in your niche or launch your own in under 60 seconds.",
+            },
+            {
+              num: 4, icon: Share2, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20",
+              title: "Share Your Unique Link",
+              desc: "Every player gets one invite link. Drop it on Instagram, YouTube, TikTok, X.",
+            },
+            {
+              num: 5, icon: Users, color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20",
+              title: "Your Network Joins",
+              desc: "People who click your link become permanent nodes under you in the tree.",
+            },
+            {
+              num: 6, icon: TrendingUp, color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/20",
+              title: "Reach Compounds Forever",
+              desc: "Everyone they invite multiplies your reach. Growth compounds — endlessly.",
+            },
+          ].map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="card-main bg-surface border-border-sleek p-8 space-y-5 text-center"
+            >
+              <div className="relative inline-flex mx-auto">
+                <div className={`w-16 h-16 ${step.bg} border ${step.border} rounded-2xl flex items-center justify-center`}>
+                  <step.icon className={`w-7 h-7 ${step.color}`} />
+                </div>
+                <span className={`absolute -top-2 -right-2 w-6 h-6 rounded-full bg-card-bg border border-border-sleek text-[10px] font-black ${step.color} flex items-center justify-center`}>
+                  {step.num}
+                </span>
+              </div>
+              <h3 className={`font-black text-sm uppercase tracking-tight leading-snug ${step.color}`}>{step.title}</h3>
+              <p className="text-text-muted text-sm font-medium leading-relaxed">{step.desc}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Growth multiplier visual */}
@@ -235,7 +346,7 @@ const HowItWorks = ({ isAuthenticated }: { isAuthenticated: boolean }) => (
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link to={isAuthenticated ? "/create" : "/signup"} className="btn-viral px-10 py-5 text-base group">
-              Start My Loop <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Enter the Game <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link to="/explore" className="btn-sleek bg-surface border-border-sleek px-8 py-5 text-base hover:bg-card-bg">
               Explore Active Loops
@@ -277,7 +388,7 @@ const Landing = () => {
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         className="flex whitespace-nowrap opacity-[0.03] absolute top-0 left-0 font-black text-[20vw] leading-none select-none pointer-events-none"
       >
-        RECURSIVE GROWTH RECURSIVE GROWTH RECURSIVE GROWTH
+        RECURSIVE GROWTH → DREAM. DARE. DONE. · RECURSIVE GROWTH → DREAM. DARE. DONE. ·
       </motion.div>
       
       <div className="relative z-10 text-center space-y-8">
@@ -286,21 +397,12 @@ const Landing = () => {
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="badge-green mb-6 px-6 py-2 text-xs">V3.0 HYPER-FLUID ENGINE ⚡</span>
-          <h1 className="text-5xl md:text-8xl lg:text-[120px] font-black tracking-tight leading-[0.85] text-primary italic uppercase italic">
-            Dareloop <br/>
-            <span className="text-accent underline decoration-border-sleek">Your Reach.</span>
+          <h1 className="text-5xl md:text-8xl lg:text-[120px] font-black tracking-tight leading-[0.85] text-primary italic uppercase">
+            {BRAND_NAME}
           </h1>
         </motion.div>
-        
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="text-text-muted text-lg md:text-2xl max-w-2xl mx-auto font-medium"
-        >
-          The world's first recursive distribution protocol. <br className="hidden md:block"/> No algorithms. Just human-led viral velocity.
-        </motion.p>
+
+        <DreamDareDone variant="hero" showHook className="max-w-2xl mx-auto" />
 
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
@@ -309,10 +411,10 @@ const Landing = () => {
           className="flex flex-col md:flex-row items-center justify-center gap-4 pt-8"
         >
           <Link to={isAuthenticated ? "/create" : "/signup"} className="btn-viral px-12 py-6 text-xl shadow-[0_20px_50px_rgba(34,197,94,0.3)] hover:shadow-accent/40 group">
-            INITIATE GROWTH <Rocket className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+            Start My Dream <Rocket className="w-6 h-6 group-hover:rotate-12 transition-transform" />
           </Link>
           <Link to="/explore" className="btn-sleek bg-surface border-border-sleek px-10 py-6 text-lg hover:bg-card-bg">
-            Examine Network
+            Explore Active Loops
           </Link>
         </motion.div>
       </div>
@@ -334,53 +436,59 @@ const Landing = () => {
 
   const landingFAQ = faqSchema([
     {
-      question: "What is Challenge Loop?",
+      question: "What is DareLoop?",
       answer:
-        "Challenge Loop is a free challenge and accountability platform where you can join or create 30-day challenges, track daily streaks, compete on leaderboards, and stay accountable through a community of like-minded people.",
+        "DareLoop is a goal execution platform. Dream. Dare. Done. — tell us your dream, get today's mission, and execute until it's verified Done.",
     },
     {
-      question: "Is Challenge Loop free?",
+      question: "Is DareLoop free?",
       answer:
-        "Yes, Challenge Loop is completely free to join. Create an account and start your first challenge in under 60 seconds.",
+        "Yes, DareLoop is free to join. Create an account and start your first mission in under 60 seconds.",
     },
     {
       question: "Can I create my own challenge?",
       answer:
-        "Absolutely. Any user can create a public or private challenge, invite friends, and track everyone's progress in real time.",
+        "Absolutely. Any user can create a public or private loop, invite friends, and track everyone's progress in real time.",
     },
     {
-      question: "How does the leaderboard work?",
+      question: "How does Dream. Dare. Done. work?",
       answer:
-        "The leaderboard ranks participants in each challenge by streak length and completion consistency. The longer your streak, the higher you climb.",
+        "Six levels. First: AI builds your plan and takes control of the path. Second: you submit first public proof (Instagram and more). Only then do the viral loop levels unlock — create/join, share your link, grow your network, and compound reach forever.",
     },
     {
-      question: "Is Challenge Loop available in Australia?",
+      question: "Is DareLoop available in Australia?",
       answer:
-        "Yes! Challenge Loop is used by communities across Australia, the US, UK, and India. Join your local city community or compete globally.",
+        "Yes! DareLoop is used by communities across Australia, the US, UK, and India. Join your local city community or compete globally.",
     },
   ]);
 
   return (
     <>
       <SEOHead
-        title="Join Challenges. Build Streaks. Change Your Life."
-        description="The challenge platform where people start, share, and complete personal challenges with a community that keeps you accountable. Track streaks, compete on leaderboards. Free to join."
-        keywords="challenge app, 30 day challenge tracker, habit challenge, accountability app, streak tracker, challenge community, self improvement app, fitness challenge app"
+        title={`${BRAND_NAME} — ${TAGLINE}`}
+        description={SEO_DEFAULT_DESCRIPTION}
+        keywords="DareLoop, Dream Dare Done, challenge app, daily mission, habit challenge, accountability app, streak tracker, goal execution, creator growth"
         canonical="/"
         ogType="website"
         appendSiteName={false}
+        ogImageAlt={`${BRAND_NAME} — ${TAGLINE}`}
         schema={[webAppSchema(), organizationSchema(), landingFAQ]}
       />
     <div className="max-w-[1440px] mx-auto pt-12 pb-24 px-6 md:px-12 animate-in fade-in duration-700">
       {/* 2027 Hero */}
       <KineticTitle />
 
+      {/* Scroll-driven 3D loop corridor */}
+      <Suspense fallback={<div className="h-[40vh]" aria-hidden />}>
+        <LoopHelixScroll isAuthenticated={isAuthenticated} />
+      </Suspense>
+
       {/* Why & How It Works */}
       <HowItWorks isAuthenticated={isAuthenticated} />
 
-      {/* Spatial Bento Grid */}
+      {/* Spatial Bento Grid — product value, not viral jargon */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mt-12">
-        {/* Main Feature: Pulse Engine */}
+        {/* Main Feature: Execution Engine */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -402,29 +510,30 @@ const Landing = () => {
                 <Zap className="w-6 h-6" />
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-text-main tracking-tight uppercase italic">
-                Recursive Distribution Protocol
+                Daily Execution Engine
               </h2>
             </div>
             <p className="text-text-muted text-lg md:text-xl max-w-xl font-medium leading-relaxed">
-              Our V3 Engine ensures that every loop participant becomes a permanent distribution node. By passing the chain forward, you unlock views from 100% of the network that follows.
+              DareLoop turns a vague goal into a day-by-day mission. AI builds the plan from your onboarding —
+              you show up, upload proof, and keep the streak. Plans stay private until you finish and publish a Blueprint.
             </p>
           </div>
           <div className="relative z-10 flex flex-wrap gap-4 pt-12">
             <div className="bg-card-bg border border-border-sleek backdrop-blur-md p-6 rounded-[32px] flex-1 min-w-[200px]">
-              <div className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">Network Depth</div>
-              <div className="text-3xl font-black text-text-main italic">14.2k Nodes</div>
+              <div className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">Mission Length</div>
+              <div className="text-3xl font-black text-text-main italic">30 Days</div>
             </div>
             <div className="bg-card-bg border border-border-sleek backdrop-blur-md p-6 rounded-[32px] flex-1 min-w-[200px]">
-              <div className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">Viral Velocity</div>
-              <div className="text-3xl font-black text-text-main italic">x140 Reach</div>
+              <div className="text-[10px] font-black uppercase tracking-widest text-text-muted mb-2">Built Around You</div>
+              <div className="text-3xl font-black text-text-main italic">AI + Proof</div>
             </div>
           </div>
         </motion.div>
 
         {/* Side Metrics */}
         <div className="md:col-span-4 grid grid-rows-2 gap-8">
-          <MetricBox label="Active Loops" value="482" trend="+12.4%" icon={Activity} color="accent" />
-          <MetricBox label="Global Reach" value="1.2M" trend="+40%" icon={Eye} color="highlight" />
+          <MetricBox label="Today's Focus" value="1 Day" trend="Clear tasks, not overwhelm" icon={Flame} color="accent" />
+          <MetricBox label="Progress Fuel" value="XP" trend="Earn as you complete" icon={Sparkles} color="highlight" />
         </div>
 
         {/* Experience Showcase */}
@@ -435,11 +544,12 @@ const Landing = () => {
           className="md:col-span-4 card-main p-10 bg-surface border-border-sleek flex flex-col justify-center text-center space-y-6 group"
         >
           <div className="w-20 h-20 bg-accent/10 rounded-[32px] flex items-center justify-center mx-auto group-hover:scale-110 group-hover:bg-accent transition-all duration-500">
-            <LinkIcon className="w-10 h-10 text-accent group-hover:text-white transition-colors" />
+            <Brain className="w-10 h-10 text-accent group-hover:text-white transition-colors" />
           </div>
-          <h3 className="text-2xl font-black text-text-main italic uppercase italic">Single-Link Synergy</h3>
+          <h3 className="text-2xl font-black text-text-main uppercase italic">Verified Blueprints</h3>
           <p className="text-text-muted text-sm font-medium leading-relaxed">
-            One unique invitation link. Thousands of connections. Dareloop maps your growth tree across 40+ platforms seamlessly.
+            Finish a mission and publish it as a Blueprint others can join. Only completed, verified journeys become public —
+            so the marketplace stays high-signal.
           </p>
         </motion.div>
 
@@ -454,11 +564,13 @@ const Landing = () => {
           <div className="relative z-10 w-full h-full p-8 flex flex-col items-center justify-center">
             <RootGrowthAnimation />
             <div className="absolute bottom-8 left-8">
-              {/* UPDATE THIS TEXT BLOCK when refreshing the node section copy */}
-              <div className="text-2xl font-bold text-primary mb-2">Scale Your Reach Everywhere</div>
-              <div className="text-sm font-semibold text-accent flex items-center gap-1 cursor-pointer hover:underline">
-                Explore Active Growth Chains →
-              </div>
+              <div className="text-2xl font-bold text-primary mb-2">Watch Your Mission Grow</div>
+              <Link
+                to={isAuthenticated ? "/plans/create" : "/signup"}
+                className="text-sm font-semibold text-accent flex items-center gap-1 hover:underline"
+              >
+                Start your first plan →
+              </Link>
             </div>
           </div>
         </motion.div>
@@ -515,15 +627,18 @@ const Landing = () => {
           </div>
         )}
         <div className="relative z-10 text-center space-y-8 px-6">
-          <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter lowercase italic italic">
-            stop fighting <br/> <span className="text-accent underline decoration-white/20">monoliths.</span>
+          <p className="text-accent text-sm md:text-base font-black uppercase tracking-[0.25em]">
+            {TAGLINE}
+          </p>
+          <h2 className="text-4xl md:text-7xl font-black text-white tracking-tighter italic">
+            Your dream. <br/> <span className="text-accent underline decoration-white/20">Today's mission.</span>
           </h2>
           <p className="text-white/40 text-lg md:text-xl max-w-xl mx-auto font-medium">
-            Join 50k+ nodes building the world's most resilient growth engine.
+            Join builders turning dreams into verified daily loops — then compounding the reach.
           </p>
           <div className="flex justify-center">
             <button onClick={handleActivateLoop} className="btn-viral py-6 px-12 text-xl shadow-2xl hover:scale-105 transition-transform group">
-              ACTIVATE MY LOOP <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+              Dream. Dare. Done. <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </button>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import { Helmet } from "react-helmet-async";
+import { BRAND_NAME, SEO_DEFAULT_DESCRIPTION, TAGLINE } from "../brand/constants";
 
 const SITE_URL = import.meta.env.VITE_APP_URL || "https://www.dareloop.app";
-const SITE_NAME = "Dareloop";
+const SITE_NAME = BRAND_NAME;
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.png`;
 const TWITTER_HANDLE = "@dareloop";
 
@@ -15,18 +16,18 @@ export interface SEOProps {
   ogImageAlt?: string;
   noindex?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
-  /** Append " | Dareloop" to the title automatically */
+  /** Append " | DareLoop" to the title automatically */
   appendSiteName?: boolean;
 }
 
 export function SEOHead({
   title,
-  description = "Join challenges, track streaks, compete on leaderboards, and stay accountable with a community that keeps you going. Free to join.",
+  description = SEO_DEFAULT_DESCRIPTION,
   keywords,
   canonical,
   ogType = "website",
   ogImage = DEFAULT_IMAGE,
-  ogImageAlt = "Dareloop — Join Challenges. Build Streaks.",
+  ogImageAlt = `${BRAND_NAME} — ${TAGLINE}`,
   noindex = false,
   schema,
   appendSiteName = true,
@@ -36,7 +37,7 @@ export function SEOHead({
       ? appendSiteName
         ? `${title} | ${SITE_NAME}`
         : title
-      : `${SITE_NAME} — Join Challenges. Build Streaks. Change Your Life.`;
+      : `${SITE_NAME} — ${TAGLINE}`;
 
   const canonicalUrl = canonical
     ? canonical.startsWith("http")
