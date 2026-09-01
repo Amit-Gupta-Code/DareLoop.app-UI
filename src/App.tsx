@@ -11,7 +11,10 @@ import { requestNotificationPermission, onForegroundMessage } from "./services/n
 import { useAuthStore } from "./store/authStore";
 
 const Signup = lazy(() => import("./pages/Auth/Signup"));
+const ForgotPassword = lazy(() => import("./pages/Auth/ForgotPassword"));
 const UserProfile = lazy(() => import("./pages/Profile/UserProfile"));
+const PublicUserProfile = lazy(() => import("./pages/Social/PublicUserProfile"));
+const Leaderboard = lazy(() => import("./pages/Social/Leaderboard"));
 const Explore = lazy(() => import("./pages/Explore"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const ChallengeDetail = lazy(() => import("./pages/Challenge/Detail"));
@@ -68,6 +71,9 @@ function AppShell() {
             <Route path="/" element={<Landing />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/users/:userId" element={<RequireAuth><PublicUserProfile /></RequireAuth>} />
             <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
             <Route path="/plans/create" element={<RequireAuth><CreatePlan /></RequireAuth>} />
             <Route path="/plans/:uuid" element={<RequireAuth><PlanDetail /></RequireAuth>} />

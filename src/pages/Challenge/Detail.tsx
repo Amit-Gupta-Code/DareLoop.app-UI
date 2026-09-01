@@ -9,6 +9,12 @@ import { useAuthStore } from "@/src/store/authStore";
 import { toPng } from "html-to-image";
 import { SEOHead } from "@/src/seo/SEOHead";
 import { challengeSchema, breadcrumbSchema } from "@/src/seo/schema";
+import ChallengeReactions from "@/src/components/challenge/ChallengeReactions";
+import {
+  completeChallenge,
+  updateChallenge,
+} from "@/src/services/socialService";
+import { isAxiosError } from "axios";
 
 const SITE_URL = import.meta.env.VITE_APP_URL || "https://challengeloop.app";
 
@@ -87,6 +93,16 @@ const ChallengeDetail = () => {
       return pu === uname && pp === plat;
     });
   }, [chain, user?.id, userData.username, userData.platform]);
+
+  const isOwner = useMemo(() => {
+    if (!chain?.participants?.length || user?.id == null) return false;
+    return chain.participants.some(
+      (p) =>
+        p.userId != null &&
+        String(p.userId) === String(user.id) &&
+        (p.parentId == null || p.parentId === ""),
+    );
+  }, [chain, user?.id]);
 
   // Real-time Growth Animation Simulator
   useEffect(() => {
@@ -422,6 +438,56 @@ const ChallengeDetail = () => {
               <p className="text-text-muted text-[15px] leading-relaxed max-w-[500px] font-medium">
                 {chain.challenge_description}
               </p>
+              <ChallengeReactions challengeId={chain.challenge_id} />
+              {isOwner && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <button
+                    type="button"
+                    className="px-3 py-1.5 rounded-xl text-xs font-bold border border-border-sleek hover:border-accent"
+                    onClick={async () => {
+                      const title = window.prompt("Challenge title", chain.challenge_title);
+                      if (!title) return;
+                      const description = window.prompt(
+                        "Challenge description",
+                        chain.challenge_description || "",
+                      );
+                      if (description == null) return;
+                      try {
+                        await updateChallenge(chain.challenge_id, { title, description });
+                        const refreshed = await getLoopDetail(code!);
+                        setChain(refreshed);
+                      } catch (err) {
+                        window.alert(
+                          isAxiosError(err)
+                            ? (err.response?.data?.message as string) || "Update failed"
+                            : "Update failed",
+                        );
+                      }
+                    }}
+                  >
+                    Edit challenge
+                  </button>
+                  <button
+                    type="button"
+                    className="px-3 py-1.5 rounded-xl text-xs font-bold border border-border-sleek text-text-muted hover:text-text-main"
+                    onClick={async () => {
+                      if (!window.confirm("Mark this challenge completed?")) return;
+                      try {
+                        await completeChallenge(chain.challenge_id);
+                        window.alert("Challenge marked completed");
+                      } catch (err) {
+                        window.alert(
+                          isAxiosError(err)
+                            ? (err.response?.data?.message as string) || "Action failed"
+                            : "Action failed",
+                        );
+                      }
+                    }}
+                  >
+                    Mark completed
+                  </button>
+                </div>
+              )}
             </div>
             <button
               onClick={handleShareMap}

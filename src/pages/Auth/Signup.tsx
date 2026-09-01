@@ -272,6 +272,12 @@ const Signup = () => {
                 <ShieldCheck className="w-3.5 h-3.5 text-accent flex-shrink-0" />
                 <span>We never post without permission. Your data stays yours.</span>
               </div>
+              <p className="text-center text-[12px] text-text-muted">
+                Email account?{" "}
+                <Link to="/forgot-password" className="font-bold text-accent hover:underline">
+                  Reset password
+                </Link>
+              </p>
             </div>
 
             {/* already have account */}

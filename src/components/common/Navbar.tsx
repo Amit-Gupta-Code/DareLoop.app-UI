@@ -10,6 +10,7 @@ import { resolveUserAvatarUrl } from "../../utils/resolveUserAvatarUrl";
 const primaryNav = [
   { name: "Home", path: "/" },
   { name: "Explore loops", path: "/explore" },
+  { name: "Leaderboard", path: "/leaderboard" },
   { name: "New Challenge", path: "/create" },
   { name: "Insights", path: "/analytics" },
   { name: "Blog", path: "/blog" },

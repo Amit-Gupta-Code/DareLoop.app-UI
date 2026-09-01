@@ -11,10 +11,12 @@ import {
   Crown,
   EyeOff,
   Flag,
+  ImagePlus,
   Lightbulb,
   Loader2,
   Lock,
   Sparkles,
+  Trash2,
   Trophy,
   Wand2,
 } from "lucide-react";
@@ -28,6 +30,9 @@ type PlanTask = {
   estimated_minutes?: number;
   difficulty?: string;
   proof_required?: boolean;
+  has_proof?: boolean;
+  proof_url?: string | null;
+  proof_note?: string | null;
   status: string;
 };
 
@@ -76,10 +81,12 @@ export default function PlanDetail() {
   const [editError, setEditError] = useState<string | null>(null);
   const [showAi, setShowAi] = useState(false);
   const [busyTask, setBusyTask] = useState<number | null>(null);
+  const [uploadingProof, setUploadingProof] = useState<number | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [focusDay, setFocusDay] = useState(1);
   const [slideDir, setSlideDir] = useState(0);
   const railRef = useRef<HTMLDivElement>(null);
+  const proofInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
   const load = async (quiet = false) => {
     if (!uuid) return;
@@ -164,10 +171,47 @@ export default function PlanDetail() {
       await API.post(`/plans/${uuid}/tasks/${taskId}/complete`);
       await load(true);
     } catch (err: unknown) {
-      const ax = err as { response?: { data?: { message?: string } } };
+      const ax = err as {
+        response?: { data?: { message?: string; errors?: { code?: string } } };
+      };
       setActionError(ax.response?.data?.message || "Could not complete task.");
     } finally {
       setBusyTask(null);
+    }
+  };
+
+  const uploadProof = async (taskId: number, file: File, note?: string) => {
+    if (!uuid) return;
+    setUploadingProof(taskId);
+    setActionError(null);
+    try {
+      const form = new FormData();
+      form.append("proof", file);
+      if (note?.trim()) form.append("note", note.trim());
+      await API.post(`/plans/${uuid}/tasks/${taskId}/proof`, form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      await load(true);
+    } catch (err: unknown) {
+      const ax = err as { response?: { data?: { message?: string } } };
+      setActionError(ax.response?.data?.message || "Proof upload failed.");
+    } finally {
+      setUploadingProof(null);
+    }
+  };
+
+  const removeProof = async (taskId: number) => {
+    if (!uuid) return;
+    setUploadingProof(taskId);
+    setActionError(null);
+    try {
+      await API.delete(`/plans/${uuid}/tasks/${taskId}/proof`);
+      await load(true);
+    } catch (err: unknown) {
+      const ax = err as { response?: { data?: { message?: string } } };
+      setActionError(ax.response?.data?.message || "Could not remove proof.");
+    } finally {
+      setUploadingProof(null);
     }
   };
 
@@ -525,8 +569,80 @@ export default function PlanDetail() {
                                   </span>
                                 )}
                                 {task.difficulty && <span>{task.difficulty}</span>}
-                                {task.proof_required && <span>Proof required</span>}
+                                {task.proof_required && (
+                                  <span className={task.has_proof ? "text-accent" : "text-highlight"}>
+                                    {task.has_proof ? "Proof uploaded" : "Proof required"}
+                                  </span>
+                                )}
                               </div>
+
+                              {(task.has_proof || (task.proof_required && actionable)) && (
+                                <div className="mt-3 space-y-2">
+                                  {task.proof_url && (
+                                    <a
+                                      href={task.proof_url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="block overflow-hidden rounded-xl border border-border-sleek bg-surface"
+                                    >
+                                      {/\.(pdf)(\?|$)/i.test(task.proof_url) ? (
+                                        <div className="px-3 py-2 text-xs font-bold text-text-muted">
+                                          View uploaded PDF proof
+                                        </div>
+                                      ) : (
+                                        <img
+                                          src={task.proof_url}
+                                          alt="Task proof"
+                                          className="max-h-40 w-full object-cover"
+                                        />
+                                      )}
+                                    </a>
+                                  )}
+                                  {task.proof_note && (
+                                    <p className="text-xs text-text-muted">{task.proof_note}</p>
+                                  )}
+                                  {actionable && !taskComplete && (
+                                    <div className="flex flex-wrap gap-2">
+                                      <input
+                                        ref={(el) => {
+                                          proofInputRefs.current[task.id] = el;
+                                        }}
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp,image/gif,application/pdf"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          e.target.value = "";
+                                          if (file) uploadProof(task.id, file);
+                                        }}
+                                      />
+                                      <button
+                                        type="button"
+                                        disabled={uploadingProof === task.id}
+                                        onClick={() => proofInputRefs.current[task.id]?.click()}
+                                        className="inline-flex items-center gap-1.5 rounded-xl border border-border-sleek bg-surface px-3 py-2 text-[11px] font-black uppercase tracking-wide hover:border-accent disabled:opacity-50"
+                                      >
+                                        {uploadingProof === task.id ? (
+                                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                        ) : (
+                                          <ImagePlus className="w-3.5 h-3.5" />
+                                        )}
+                                        {task.has_proof ? "Replace proof" : "Upload proof"}
+                                      </button>
+                                      {task.has_proof && (
+                                        <button
+                                          type="button"
+                                          disabled={uploadingProof === task.id}
+                                          onClick={() => removeProof(task.id)}
+                                          className="inline-flex items-center gap-1.5 rounded-xl border border-border-sleek px-3 py-2 text-[11px] font-black uppercase tracking-wide text-text-muted hover:text-red-500 disabled:opacity-50"
+                                        >
+                                          <Trash2 className="w-3.5 h-3.5" /> Remove
+                                        </button>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                             </div>
 
                             {taskComplete ? (
@@ -536,7 +652,15 @@ export default function PlanDetail() {
                             ) : actionable ? (
                               <button
                                 type="button"
-                                disabled={busyTask === task.id}
+                                disabled={
+                                  busyTask === task.id ||
+                                  Boolean(task.proof_required && !task.has_proof)
+                                }
+                                title={
+                                  task.proof_required && !task.has_proof
+                                    ? "Upload proof before completing"
+                                    : undefined
+                                }
                                 onClick={() => completeTask(task.id, day.day_number)}
                                 className="shrink-0 rounded-xl px-4 py-2.5 text-xs font-black uppercase tracking-wide bg-accent text-white hover:shadow-lg hover:shadow-accent/25 disabled:opacity-50 transition-shadow"
                               >
