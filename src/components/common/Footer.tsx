@@ -275,7 +275,7 @@ const Footer = () => {
                 <div className="flex gap-3">
                   {[
                     { icon: Facebook, href: "https://www.facebook.com/dareloop/" },
-                    { icon: Youtube, href: "https://www.youtube.com/@CodeWithCodeOfficial" },
+                    { icon: Youtube, href: "https://www.youtube.com/@DeveloperBiharWala" },
                     { icon: Instagram, href: "https://www.instagram.com/dareloop.app/" },
                     { icon: WhatsAppIcon, href: "https://whatsapp.com/channel/0029VbCfgLY8F2pBqDpLf51m" },
                   ].map((social, i) => (
