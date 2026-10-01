@@ -16,6 +16,7 @@ const UserProfile = lazy(() => import("./pages/Profile/UserProfile"));
 const PublicUserProfile = lazy(() => import("./pages/Social/PublicUserProfile"));
 const Leaderboard = lazy(() => import("./pages/Social/Leaderboard"));
 const Explore = lazy(() => import("./pages/Explore"));
+const GymProfile = lazy(() => import("./pages/Gym/Profile"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const ChallengeDetail = lazy(() => import("./pages/Challenge/Detail"));
 const CreateChallenge = lazy(() => import("./pages/Challenge/Create"));
@@ -28,6 +29,8 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const CreatePlan = lazy(() => import("./pages/Plans/CreatePlan"));
 const PlanDetail = lazy(() => import("./pages/Plans/PlanDetail"));
 const PlanDayView = lazy(() => import("./pages/Plans/PlanDayView"));
+const Wellness = lazy(() => import("./pages/Wellness"));
+const MyGym = lazy(() => import("./pages/Gym/MyGym"));
 
 function RouteTracker() {
   const { pathname } = useLocation();
@@ -78,9 +81,12 @@ function AppShell() {
             <Route path="/plans/create" element={<RequireAuth><CreatePlan /></RequireAuth>} />
             <Route path="/plans/:uuid" element={<RequireAuth><PlanDetail /></RequireAuth>} />
             <Route path="/plans/:uuid/days/:dayNumber" element={<RequireAuth><PlanDayView /></RequireAuth>} />
+            <Route path="/wellness" element={<RequireAuth><Wellness /></RequireAuth>} />
+            <Route path="/my-gym" element={<RequireAuth><MyGym /></RequireAuth>} />
             <Route path="/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
             <Route path="/profile/edit" element={<RequireAuth><EditProfile /></RequireAuth>} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/g/:slug" element={<GymProfile />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/c/:code" element={<ChallengeDetail />} />
             <Route path="/create" element={<RequireAuth><CreateChallenge /></RequireAuth>} />

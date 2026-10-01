@@ -1,5 +1,12 @@
 import API from "../api/client";
 
+export interface LoopOrganization {
+  id: number;
+  name: string;
+  slug: string;
+  logo_url: string | null;
+}
+
 export interface Loop {
   id: string;
   title: string;
@@ -8,6 +15,9 @@ export interface Loop {
   status: string;
   root_code: string;
   participant_count: number;
+  visibility?: string;
+  organization_id?: number | null;
+  organization?: LoopOrganization | null;
 }
 
 export const getLoops = async (): Promise<Loop[]> => {
@@ -56,6 +66,8 @@ export interface LoopDetail {
   challenge_title: string;
   challenge_description: string;
   challenge_banner_image: string | null;
+  challenge_visibility?: string;
+  organization?: LoopOrganization | null;
   current_code: string;
   current_depth: number;
   is_trending: boolean;

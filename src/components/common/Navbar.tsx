@@ -184,6 +184,18 @@ const Navbar = () => {
                   </div>
                 )}
               </Link>
+              <Link
+                to="/wellness"
+                className="text-[11px] font-bold uppercase tracking-wide text-text-muted hover:text-accent"
+              >
+                Wellness
+              </Link>
+              <Link
+                to="/my-gym"
+                className="text-[11px] font-bold uppercase tracking-wide text-text-muted hover:text-accent"
+              >
+                My Gym
+              </Link>
               <Link to="/profile/edit" className="text-[11px] font-bold uppercase tracking-wide text-text-muted hover:text-accent">
                 Edit profile
               </Link>
@@ -263,6 +275,12 @@ const Navbar = () => {
               <div className="mt-6 pt-4 border-t border-border-sleek flex flex-col gap-3">
                 {isAuthenticated ? (
                   <>
+                    <Link to="/wellness" onClick={closeMobile} className="text-base font-bold hover:text-accent">
+                      Wellness
+                    </Link>
+                    <Link to="/my-gym" onClick={closeMobile} className="text-base font-bold hover:text-accent">
+                      My Gym
+                    </Link>
                     <Link to="/profile" onClick={closeMobile} className="text-base font-bold hover:text-accent">
                       My profile
                     </Link>

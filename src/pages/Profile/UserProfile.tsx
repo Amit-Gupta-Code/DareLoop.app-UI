@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/src/utils/cn";
-import { Eye, Zap, Users, Link as LinkIcon, Rocket, BarChart3, Globe, ChevronRight, TrendingUp, Award, Calendar, Share2, GitBranch } from "lucide-react";
+import { Eye, Zap, Users, Link as LinkIcon, Rocket, BarChart3, Globe, ChevronRight, TrendingUp, Award, Calendar, Share2, GitBranch, ImagePlus } from "lucide-react";
 import { getMyLoops, getJoinedLoops, Loop } from "@/src/services/loopService";
 import { getMyAnalytics, MyAnalytics } from "@/src/services/analyticsService";
+import { getMyProofs, Proof } from "@/src/services/proofService";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import LogoutButton from "@/src/components/common/LogoutButton";
 import { useAuthStore } from "@/src/store/authStore";
@@ -21,7 +22,7 @@ const getInitials = (name: string): string => {
 };
 
 const UserProfile = () => {
-   const [activeTab, setActiveTab] = useState<'joined' | 'created' | 'analytics'>('joined');
+   const [activeTab, setActiveTab] = useState<'joined' | 'created' | 'analytics' | 'proofs'>('joined');
    const [avatarSrc, setAvatarSrc] = useState("");
    const [avatarError, setAvatarError] = useState(false);
    const [joinedLoops, setJoinedLoops] = useState<Loop[]>([]);
@@ -30,6 +31,8 @@ const UserProfile = () => {
    const [createdLoading, setCreatedLoading] = useState(false);
    const [analytics, setAnalytics] = useState<MyAnalytics | null>(null);
    const [analyticsLoading, setAnalyticsLoading] = useState(false);
+   const [proofs, setProofs] = useState<Proof[]>([]);
+   const [proofsLoading, setProofsLoading] = useState(false);
    const [copiedId, setCopiedId] = useState<string | null>(null);
    const [idCopied, setIdCopied] = useState(false);
    const [headerAnalytics, setHeaderAnalytics] = useState<{ reach: number; momentum: number; nodes: number } | null>(null);
@@ -93,6 +96,15 @@ const UserProfile = () => {
          .then(setAnalytics)
          .catch(() => setAnalytics(null))
          .finally(() => setAnalyticsLoading(false));
+   }, [activeTab]);
+
+   useEffect(() => {
+      if (activeTab !== 'proofs') return;
+      setProofsLoading(true);
+      getMyProofs()
+         .then(setProofs)
+         .catch(() => setProofs([]))
+         .finally(() => setProofsLoading(false));
    }, [activeTab]);
 
    const handleShareLoop = (rootCode: string, id: string) => {
@@ -160,6 +172,20 @@ const UserProfile = () => {
                      <button
                         type="button"
                         className="btn-sleek bg-surface text-text-main border-border-sleek text-xs py-2 px-6 hover:bg-card-bg"
+                        onClick={() => navigate("/wellness")}
+                     >
+                        Wellness
+                     </button>
+                     <button
+                        type="button"
+                        className="btn-sleek bg-surface text-text-main border-border-sleek text-xs py-2 px-6 hover:bg-card-bg"
+                        onClick={() => navigate("/my-gym")}
+                     >
+                        My Gym
+                     </button>
+                     <button
+                        type="button"
+                        className="btn-sleek bg-surface text-text-main border-border-sleek text-xs py-2 px-6 hover:bg-card-bg"
                         onClick={() => {
                            const handle = authUser?.handle?.replace(/^@/, "") || authUser?.id;
                            const url = `${window.location.origin}/@${handle}`;
@@ -196,6 +222,7 @@ const UserProfile = () => {
                { id: 'joined', label: 'Joined Loops', icon: LinkIcon },
                { id: 'created', label: 'My Challenges', icon: Rocket },
                { id: 'analytics', label: 'Performance', icon: BarChart3 },
+               { id: 'proofs', label: 'Proof History', icon: ImagePlus },
             ].map((tab) => (
                <button
                   key={tab.id}
@@ -379,6 +406,50 @@ const UserProfile = () => {
                            </div>
                         </div>
                      </div>
+                  </div>
+               )
+            )}
+
+            {activeTab === 'proofs' && (
+               proofsLoading ? (
+                  <div className="text-center py-20 text-text-muted animate-pulse font-black uppercase tracking-[0.2em]">Loading your proof history...</div>
+               ) : proofs.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                     {proofs.map((proof) => (
+                        <div key={proof.id} className="card-main p-4 space-y-3">
+                           {proof.url ? (
+                              <a
+                                 href={proof.url}
+                                 target="_blank"
+                                 rel="noreferrer"
+                                 className="block overflow-hidden rounded-xl border border-border-sleek bg-surface"
+                              >
+                                 {proof.type === 'document' ? (
+                                    <div className="px-3 py-6 text-center text-xs font-bold text-text-muted">
+                                       View uploaded document
+                                    </div>
+                                 ) : (
+                                    <img src={proof.url} alt="Proof" className="max-h-40 w-full object-cover" />
+                                 )}
+                              </a>
+                           ) : null}
+                           <div className="flex items-center justify-between">
+                              <span className="badge-green lowercase text-[10px]">{proof.proofable_type}</span>
+                              <span className="text-[10px] font-bold text-text-muted uppercase">
+                                 {new Date(proof.uploaded_at).toLocaleDateString()}
+                              </span>
+                           </div>
+                           {proof.caption && (
+                              <p className="text-xs text-text-muted line-clamp-2">{proof.caption}</p>
+                           )}
+                        </div>
+                     ))}
+                  </div>
+               ) : (
+                  <div className="text-center py-20 bg-surface rounded-[32px] border-2 border-dashed border-border-sleek">
+                     <ImagePlus className="w-12 h-12 text-text-muted/20 mx-auto mb-4" />
+                     <h3 className="text-xl font-black text-text-muted">No Proof Uploaded Yet</h3>
+                     <p className="text-sm text-text-muted/60 mb-6">Upload proof on a plan task to start building your history.</p>
                   </div>
                )
             )}

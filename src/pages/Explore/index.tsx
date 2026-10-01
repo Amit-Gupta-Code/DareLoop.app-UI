@@ -99,10 +99,19 @@ const Explore = () => {
                     <BannerPlaceholder />
                   )}
                   {/* Status badge overlay */}
-                  <div className="absolute top-3 left-3">
+                  <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
                     <span className="text-[10px] font-black text-accent bg-card-bg/90 backdrop-blur-sm px-3 py-1 rounded-full uppercase tracking-widest border border-accent/20 shadow-sm">
                       {loop.status}
                     </span>
+                    {loop.organization && (
+                      <Link
+                        to={`/g/${loop.organization.slug}`}
+                        className="text-[10px] font-black text-primary bg-card-bg/90 backdrop-blur-sm px-3 py-1 rounded-full uppercase tracking-widest border border-border-sleek shadow-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {loop.organization.name}
+                      </Link>
+                    )}
                   </div>
                   {/* Participant count overlay */}
                   <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-card-bg/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-border-sleek shadow-sm">
