@@ -178,6 +178,55 @@ export const STATIC_PAGES = {
       },
     ],
   },
+  "child-safety": {
+    badge: "Legal · Safety",
+    title: "Child Safety Standards",
+    lead:
+      "Last updated: November 11, 2026. DareLoop (the DareLoop app, package com.dareloop.app, and dareloop.app) has zero tolerance for child sexual abuse and exploitation (CSAE) and child sexual abuse material (CSAM). These standards explain what we prohibit, how we prevent it, and how to report it.",
+    sections: [
+      {
+        heading: "Zero tolerance",
+        paragraphs: [
+          "Any content, behaviour or account that sexually exploits, abuses or endangers children is prohibited on DareLoop. This includes CSAM, sexualized images or descriptions of minors, grooming, sextortion, soliciting minors, and any challenge (\"dare\") that pressures a minor into unsafe, sexual or harmful acts.",
+          "Accounts involved in CSAE are permanently banned, and we report them to the authorities.",
+        ],
+      },
+      {
+        heading: "Age requirements",
+        paragraphs: [
+          "You must be at least 13 years old to use DareLoop, or older where local law requires it. We remove accounts we find to belong to children under the minimum age.",
+        ],
+      },
+      {
+        heading: "Prevention and moderation",
+        paragraphs: [
+          "Challenges, proof uploads, profile photos and other user content are subject to review. We remove content that breaks these standards and suspend the accounts responsible.",
+          "Public challenges must comply with our Terms of Service. We do not allow dares that involve nudity, sexual content, self-harm or dangerous acts.",
+          "Our team is trained to recognise and escalate CSAE, and we keep these standards up to date with applicable law and industry best practice.",
+        ],
+      },
+      {
+        heading: "How to report",
+        paragraphs: [
+          "In the DareLoop app, use the report option to flag a user, challenge or upload, or email our child safety contact at dareloop@zohomail.in with the subject \"Child Safety\". Include links, usernames or loop codes if you have them.",
+          "We review child safety reports as a priority, act on them as quickly as possible, and preserve relevant evidence for law enforcement.",
+          "If a child is in immediate danger, contact your local police or emergency services first.",
+        ],
+      },
+      {
+        heading: "Reporting to authorities",
+        paragraphs: [
+          "When we become aware of CSAM, we remove it and report it to the relevant authorities, including the National Center for Missing & Exploited Children (NCMEC) and the appropriate regional and national authorities. In India this includes the National Cybercrime Reporting Portal (cybercrime.gov.in). We cooperate with valid law enforcement requests.",
+        ],
+      },
+      {
+        heading: "Child safety contact",
+        paragraphs: [
+          "Our designated child safety point of contact can be reached at dareloop@zohomail.in. This contact is ready to discuss our CSAM prevention practices and compliance.",
+        ],
+      },
+    ],
+  },
   "delete-account": {
     badge: "Legal · Account",
     title: "Delete your DareLoop account",
@@ -187,7 +236,7 @@ export const STATIC_PAGES = {
       {
         heading: "How to request deletion",
         paragraphs: [
-          "Send an email to support@dareloop.app from the email address registered to your DareLoop account, with the subject \"Delete my account\".",
+          "Send an email to dareloop@zohomail.in from the email address registered to your DareLoop account, with the subject \"Delete my account\".",
           "Include your DareLoop username so we can locate your account. If you signed in with Google, use your Google account's email address.",
           "We will confirm the request by email and complete the deletion within 30 days. You do not need to have the app installed to make this request.",
         ],
@@ -208,7 +257,7 @@ export const STATIC_PAGES = {
       {
         heading: "Delete only some of your data",
         paragraphs: [
-          "To delete specific data without closing your account, such as proof photos, plans or body metrics, email support@dareloop.app and say what you want removed. Many items can also be removed directly in the app.",
+          "To delete specific data without closing your account, such as proof photos, plans or body metrics, email dareloop@zohomail.in and say what you want removed. Many items can also be removed directly in the app.",
         ],
       },
     ],

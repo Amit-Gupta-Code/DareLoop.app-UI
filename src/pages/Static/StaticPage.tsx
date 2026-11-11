@@ -5,7 +5,7 @@ import { STATIC_PAGES, type StaticPageKey } from "./staticPages";
 import { SEOHead } from "@/src/seo/SEOHead";
 import { breadcrumbSchema } from "@/src/seo/schema";
 
-const LEGAL_KEYS: StaticPageKey[] = ["privacy-policy", "terms-of-service", "cookies", "delete-account"];
+const LEGAL_KEYS: StaticPageKey[] = ["privacy-policy", "terms-of-service", "cookies", "delete-account", "child-safety"];
 
 type StaticPageProps = { pageKey: StaticPageKey };
 
