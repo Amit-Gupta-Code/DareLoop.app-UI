@@ -32,7 +32,7 @@
       ]
     },
     {
-      "source": "/(explore|c/.*|documentation|growth-engine-lab|whitepaper|privacy-policy|terms-of-service|cookies)",
+      "source": "/(explore|c/.*|documentation|growth-engine-lab|whitepaper|privacy-policy|terms-of-service|delete-account|cookies)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300, stale-while-revalidate=3600" }
       ]

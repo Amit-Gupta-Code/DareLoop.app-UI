@@ -97,6 +97,7 @@ function AppShell() {
             <Route path="/growth-engine-lab" element={<StaticPage pageKey="growth-engine-lab" />} />
             <Route path="/whitepaper" element={<StaticPage pageKey="whitepaper" />} />
             <Route path="/privacy-policy" element={<StaticPage pageKey="privacy-policy" />} />
+            <Route path="/delete-account" element={<StaticPage pageKey="delete-account" />} />
             <Route path="/terms-of-service" element={<StaticPage pageKey="terms-of-service" />} />
             <Route path="/cookies" element={<StaticPage pageKey="cookies" />} />
             <Route path="*" element={<Landing />} />

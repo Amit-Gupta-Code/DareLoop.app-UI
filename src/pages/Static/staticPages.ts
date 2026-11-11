@@ -178,6 +178,41 @@ export const STATIC_PAGES = {
       },
     ],
   },
+  "delete-account": {
+    badge: "Legal · Account",
+    title: "Delete your DareLoop account",
+    lead:
+      "This page explains how to request deletion of your DareLoop account and the data associated with it. This applies to the DareLoop Android app (com.dareloop.app), the iOS app, and dareloop.app.",
+    sections: [
+      {
+        heading: "How to request deletion",
+        paragraphs: [
+          "Send an email to support@dareloop.app from the email address registered to your DareLoop account, with the subject \"Delete my account\".",
+          "Include your DareLoop username so we can locate your account. If you signed in with Google, use your Google account's email address.",
+          "We will confirm the request by email and complete the deletion within 30 days. You do not need to have the app installed to make this request.",
+        ],
+      },
+      {
+        heading: "Data that is deleted",
+        paragraphs: [
+          "Your account and profile (name, email, username, avatar, bio and social handle), your login credentials and sign-in tokens, the challenges and loop entries you created, proof photos and uploads, AI plans and tasks, workout, nutrition and body metrics records, notifications and device tokens.",
+        ],
+      },
+      {
+        heading: "Data that may be kept",
+        paragraphs: [
+          "Positions in other people's challenge chains may be kept in anonymized form (with no link to your identity) so their loops stay intact.",
+          "Security logs and records we must keep for legal, fraud-prevention or tax reasons may be kept for up to 90 days, or longer only where the law requires it, and are then deleted.",
+        ],
+      },
+      {
+        heading: "Delete only some of your data",
+        paragraphs: [
+          "To delete specific data without closing your account, such as proof photos, plans or body metrics, email support@dareloop.app and say what you want removed. Many items can also be removed directly in the app.",
+        ],
+      },
+    ],
+  },
   "terms-of-service": {
     badge: "Legal",
     title: "Terms of Service",
